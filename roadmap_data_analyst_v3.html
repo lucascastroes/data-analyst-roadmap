@@ -1,0 +1,1402 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Analyst Roadmap · 120 Días</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+
+  :root {
+    --bg: #080c14;
+    --surface: #0e1621;
+    --surface2: #151f30;
+    --border: #1e2d45;
+    --accent-excel: #22c55e;
+    --accent-sql: #3b82f6;
+    --accent-bi: #a855f7;
+    --accent-proj: #f97316;
+    --text: #e2e8f0;
+    --text-muted: #64748b;
+    --text-dim: #94a3b8;
+    --done-bg: #052e16;
+    --done-border: #16a34a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Syne', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* BG GRID */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(59,130,246,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(59,130,246,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* HEADER */
+  header {
+    position: relative;
+    z-index: 1;
+    padding: 48px 40px 32px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(59,130,246,0.06) 0%, transparent 100%);
+  }
+
+  .header-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .logo {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  h1 {
+    font-size: clamp(32px, 5vw, 60px);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    background: linear-gradient(135deg, #e2e8f0 0%, #94a3b8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  h1 span {
+    background: linear-gradient(135deg, #3b82f6, #a855f7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .progress-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 220px;
+  }
+
+  .progress-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+  }
+
+  .progress-bar {
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #3b82f6, #a855f7);
+    border-radius: 3px;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .progress-count {
+    font-family: 'Space Mono', monospace;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .progress-count small {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  /* LEGEND */
+  .legend {
+    max-width: 1400px;
+    margin: 24px auto 0;
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-dim);
+    font-family: 'Space Mono', monospace;
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+  }
+
+  /* PHASE FILTERS */
+  .filters {
+    max-width: 1400px;
+    margin: 32px auto 0;
+    padding: 0 40px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+  }
+
+  .filter-btn {
+    padding: 8px 18px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-dim);
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .filter-btn:hover { border-color: var(--text-muted); color: var(--text); }
+
+  .filter-btn.active {
+    background: var(--surface2);
+    border-color: #3b82f6;
+    color: #3b82f6;
+  }
+
+  .filter-btn[data-phase="excel"].active { color: var(--accent-excel); border-color: var(--accent-excel); }
+  .filter-btn[data-phase="sql"].active   { color: var(--accent-sql);   border-color: var(--accent-sql); }
+  .filter-btn[data-phase="bi"].active    { color: var(--accent-bi);    border-color: var(--accent-bi); }
+  .filter-btn[data-phase="proj"].active  { color: var(--accent-proj);  border-color: var(--accent-proj); }
+
+  /* CALENDAR GRID */
+  main {
+    max-width: 1400px;
+    margin: 32px auto;
+    padding: 0 40px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .phase-section { margin-bottom: 48px; }
+
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+
+  .phase-badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 100px;
+    border: 1px solid;
+  }
+
+  .phase-badge.excel { color: var(--accent-excel); border-color: var(--accent-excel); background: rgba(34,197,94,0.08); }
+  .phase-badge.sql   { color: var(--accent-sql);   border-color: var(--accent-sql);   background: rgba(59,130,246,0.08); }
+  .phase-badge.bi    { color: var(--accent-bi);    border-color: var(--accent-bi);    background: rgba(168,85,247,0.08); }
+  .phase-badge.proj  { color: var(--accent-proj);  border-color: var(--accent-proj);  background: rgba(249,115,22,0.08); }
+
+  .phase-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .phase-days {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-left: auto;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(88px, 1fr));
+    gap: 8px;
+  }
+
+  .day-card {
+    aspect-ratio: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .day-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .day-card:hover::before { opacity: 1; }
+  .day-card:hover { transform: translateY(-2px); border-color: #2d3f58; background: var(--surface2); }
+
+  .day-card.excel::before { background: var(--accent-excel); }
+  .day-card.sql::before   { background: var(--accent-sql); }
+  .day-card.bi::before    { background: var(--accent-bi); }
+  .day-card.proj::before  { background: var(--accent-proj); }
+
+  .day-card.done {
+    background: var(--done-bg);
+    border-color: var(--done-border);
+  }
+
+  .day-card.done::after {
+    content: '✓';
+    position: absolute;
+    top: 4px; right: 6px;
+    font-size: 10px;
+    color: var(--accent-excel);
+    font-weight: 700;
+  }
+
+  .day-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1;
+  }
+
+  .day-card.done .day-num { color: var(--accent-excel); }
+
+  .day-icon { font-size: 14px; line-height: 1; }
+
+  .day-label {
+    font-size: 8px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .day-card.excel .day-label { color: rgba(34,197,94,0.7); }
+  .day-card.sql .day-label   { color: rgba(59,130,246,0.7); }
+  .day-card.bi .day-label    { color: rgba(168,85,247,0.7); }
+  .day-card.proj .day-label  { color: rgba(249,115,22,0.7); }
+
+  /* MODAL */
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(6px);
+    z-index: 100;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .overlay.open { display: flex; }
+
+  .modal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 620px;
+    max-height: 88vh;
+    overflow-y: auto;
+    position: relative;
+    animation: slideUp 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .modal-header {
+    padding: 24px 24px 20px;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: var(--surface);
+    z-index: 1;
+    border-radius: 16px 16px 0 0;
+  }
+
+  .modal-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+
+  .modal-day-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.15em;
+  }
+
+  .modal-close {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 16px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+  }
+
+  .modal-close:hover { background: var(--surface2); color: var(--text); }
+
+  .modal-title {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+
+  .modal-phase-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 100px;
+    border: 1px solid;
+    margin-top: 10px;
+  }
+
+  .modal-body { padding: 24px; }
+
+  /* VIDEO LINK CARD */
+  .video-link-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 18px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 20px;
+    text-decoration: none;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .video-link-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(239,68,68,0.04), transparent);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .video-link-card:hover { border-color: #ef4444; transform: translateY(-1px); box-shadow: 0 4px 20px rgba(239,68,68,0.15); }
+  .video-link-card:hover::before { opacity: 1; }
+
+  .video-link-big {
+    padding: 20px;
+    border-color: rgba(239,68,68,0.3);
+    background: linear-gradient(135deg, rgba(239,68,68,0.06), var(--surface2));
+  }
+
+  .video-thumb-big {
+    width: 56px; height: 56px;
+    background: #ef4444;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 4px 16px rgba(239,68,68,0.4);
+  }
+
+  .video-thumb {
+    width: 48px; height: 36px;
+    background: #ef4444;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .video-course-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    color: #ef4444;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    font-weight: 700;
+  }
+
+  .video-info { flex: 1; min-width: 0; }
+
+  .video-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.4;
+    margin-bottom: 4px;
+  }
+
+  .video-sub {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+  }
+
+  .video-arrow {
+    font-size: 22px;
+    color: #ef4444;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  /* TASKS */
+  .tasks-section { margin-bottom: 20px; }
+
+  .tasks-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .tasks-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .task-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    margin-bottom: 6px;
+    background: var(--surface2);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+  }
+
+  .task-item:hover { border-color: var(--border); }
+
+  .task-item.checked { opacity: 0.6; }
+
+  .task-check {
+    width: 18px; height: 18px;
+    border-radius: 4px;
+    border: 1.5px solid var(--border);
+    flex-shrink: 0;
+    margin-top: 1px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+    transition: all 0.15s;
+    background: transparent;
+  }
+
+  .task-item.checked .task-check {
+    background: var(--accent-excel);
+    border-color: var(--accent-excel);
+    color: white;
+  }
+
+  .task-text {
+    font-size: 14px;
+    color: var(--text-dim);
+    line-height: 1.5;
+  }
+
+  .task-item.checked .task-text {
+    text-decoration: line-through;
+    color: var(--text-muted);
+  }
+
+  /* IBM BADGE */
+  .ibm-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: linear-gradient(135deg, rgba(59,130,246,0.08), rgba(168,85,247,0.08));
+    border: 1px solid rgba(59,130,246,0.2);
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+
+  .ibm-icon { font-size: 24px; }
+
+  .ibm-info { flex: 1; }
+
+  .ibm-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+
+  .ibm-sub {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+  }
+
+  .ibm-time {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    color: #3b82f6;
+  }
+
+  /* MODAL FOOTER */
+  .modal-footer {
+    padding: 16px 24px 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 10px;
+  }
+
+  .btn-done {
+    flex: 1;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: linear-gradient(135deg, #16a34a, #15803d);
+    color: white;
+  }
+
+  .btn-done:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(22,163,74,0.3); }
+
+  .btn-undone {
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-muted);
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-undone:hover { background: var(--surface2); color: var(--text); }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    header { padding: 32px 20px 24px; }
+    main { padding: 0 16px 60px; }
+    .filters { padding: 0 16px; }
+    .grid { grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 6px; }
+    .day-num { font-size: 15px; }
+  }
+
+
+/* ── Nuevas fases del Roadmap ── */
+:root {
+  --accent-intro:  #f59e0b;
+  --accent-python: #ec4899;
+  --accent-sqladv: #60a5fa;
+  --accent-data:   #06b6d4;
+  --accent-stats:  #8b5cf6;
+  --accent-viz:    #f97316;
+}
+
+.day-card.intro::before   { background: var(--accent-intro);  }
+.day-card.python::before  { background: var(--accent-python); }
+.day-card.sqladv::before  { background: var(--accent-sqladv); }
+.day-card.data::before    { background: var(--accent-data);   }
+.day-card.stats::before   { background: var(--accent-stats);  }
+.day-card.viz::before     { background: var(--accent-viz);    }
+
+.day-card.intro  .day-label { color: rgba(245,158,11,0.85);  }
+.day-card.python .day-label { color: rgba(236,72,153,0.8);   }
+.day-card.sqladv .day-label { color: rgba(96,165,250,0.85);  }
+.day-card.data   .day-label { color: rgba(6,182,212,0.8);    }
+.day-card.stats  .day-label { color: rgba(139,92,246,0.8);   }
+.day-card.viz    .day-label { color: rgba(249,115,22,0.8);   }
+
+.day-card.intro:hover  { border-color: rgba(245,158,11,.4);  }
+.day-card.python:hover { border-color: rgba(236,72,153,.4);  }
+.day-card.sqladv:hover { border-color: rgba(96,165,250,.4);  }
+.day-card.data:hover   { border-color: rgba(6,182,212,.4);   }
+.day-card.stats:hover  { border-color: rgba(139,92,246,.4);  }
+.day-card.viz:hover    { border-color: rgba(249,115,22,.4);  }
+
+.phase-badge.intro  { color:var(--accent-intro);  border-color:var(--accent-intro);  background:rgba(245,158,11,.08);  }
+.phase-badge.python { color:var(--accent-python); border-color:var(--accent-python); background:rgba(236,72,153,.08);  }
+.phase-badge.sqladv { color:var(--accent-sqladv); border-color:var(--accent-sqladv); background:rgba(96,165,250,.08);  }
+.phase-badge.data   { color:var(--accent-data);   border-color:var(--accent-data);   background:rgba(6,182,212,.08);   }
+.phase-badge.stats  { color:var(--accent-stats);  border-color:var(--accent-stats);  background:rgba(139,92,246,.08);  }
+.phase-badge.viz    { color:var(--accent-viz);     border-color:var(--accent-viz);    background:rgba(249,115,22,.08);  }
+
+.filter-btn[data-phase="intro"].active  { color:var(--accent-intro);  border-color:var(--accent-intro);  background:rgba(245,158,11,.1);  }
+.filter-btn[data-phase="python"].active { color:var(--accent-python); border-color:var(--accent-python); background:rgba(236,72,153,.1);  }
+.filter-btn[data-phase="sqladv"].active { color:var(--accent-sqladv); border-color:var(--accent-sqladv); background:rgba(96,165,250,.1);  }
+.filter-btn[data-phase="data"].active   { color:var(--accent-data);   border-color:var(--accent-data);   background:rgba(6,182,212,.1);   }
+.filter-btn[data-phase="stats"].active  { color:var(--accent-stats);  border-color:var(--accent-stats);  background:rgba(139,92,246,.1);  }
+.filter-btn[data-phase="viz"].active    { color:var(--accent-viz);     border-color:var(--accent-viz);    background:rgba(249,115,22,.1);  }
+
+/* ── Timestamp chip ── */
+.ts-chip {
+  display:inline-flex; align-items:center; gap:5px;
+  background:rgba(239,68,68,.12); border:1px solid rgba(239,68,68,.35);
+  color:#ef4444; font-family:'Space Mono',monospace;
+  font-size:11px; font-weight:700; padding:4px 11px;
+  border-radius:100px; margin-top:8px; letter-spacing:.05em; cursor:pointer;
+}
+.ts-chip:hover { background:rgba(239,68,68,.22); }
+
+/* ── Roadmap ribbon in header ── */
+.rm-ribbon {
+  display:flex; gap:6px; align-items:center;
+  flex-wrap:wrap; margin-top:16px;
+}
+.rm-pill {
+  padding:5px 13px; border-radius:100px; border:1px solid;
+  font-family:'Space Mono',monospace; font-size:9px;
+  letter-spacing:.1em; text-transform:uppercase; white-space:nowrap; font-weight:700;
+}
+.rm-arr { color:var(--text-muted); font-size:12px; }
+
+/* ── Course cards in modal ── */
+.course-card {
+  display:flex; align-items:center; gap:14px;
+  padding:14px 16px; border-radius:12px;
+  border:1px solid var(--border); background:var(--surface2);
+  text-decoration:none; transition:all .2s; margin-bottom:14px;
+}
+.course-card:hover { transform:translateY(-2px); }
+.course-card.embed:hover  { border-color:rgba(239,68,68,.5); box-shadow:0 4px 20px rgba(239,68,68,.15); }
+.course-card.suggest:hover { border-color:rgba(129,140,248,.5); box-shadow:0 4px 20px rgba(129,140,248,.12); }
+.course-card.link:hover   { border-color:rgba(100,116,139,.5); }
+
+.cc-thumb {
+  width:48px; height:48px; border-radius:10px; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center; font-size:20px;
+}
+.cc-thumb.red   { background:#ef4444; box-shadow:0 4px 14px rgba(239,68,68,.3); }
+.cc-thumb.indigo { background:linear-gradient(135deg,#4f46e5,#7c3aed); box-shadow:0 4px 14px rgba(99,102,241,.25); }
+.cc-thumb.slate { background:var(--border); }
+
+.cc-tag {
+  font-family:'Space Mono',monospace; font-size:9px; letter-spacing:.15em;
+  text-transform:uppercase; font-weight:700; margin-bottom:4px;
+}
+.cc-tag.red    { color:#ef4444; }
+.cc-tag.indigo { color:#818cf8; }
+.cc-tag.slate  { color:var(--text-muted); }
+
+.cc-title { font-size:13px; font-weight:700; color:var(--text); line-height:1.4; margin-bottom:3px; }
+.cc-sub   { font-family:'Space Mono',monospace; font-size:10px; color:var(--text-muted); }
+.cc-arrow { font-size:18px; font-weight:700; margin-left:auto; flex-shrink:0; }
+
+/* ── Phase section header ── */
+.phase-section { margin-bottom:40px; }
+.phase-hdr {
+  display:flex; align-items:flex-start; gap:12px;
+  padding:14px 18px; border-radius:12px;
+  border:1px solid var(--border); background:var(--surface);
+  margin-bottom:14px; flex-wrap:wrap;
+}
+.ph-left  { display:flex; flex-direction:column; gap:6px; flex:1; min-width:0; }
+.ph-title { font-size:14px; font-weight:700; color:var(--text); }
+.ph-topics { display:flex; gap:5px; flex-wrap:wrap; }
+.topic-chip {
+  font-size:10px; font-family:'Space Mono',monospace;
+  padding:2px 7px; border-radius:4px;
+  background:var(--surface2); color:var(--text-dim); border:1px solid var(--border);
+}
+.ph-days { font-family:'Space Mono',monospace; font-size:11px; color:var(--text-muted); flex-shrink:0; align-self:center; }
+
+/* ── Course banner ── */
+.course-banner {
+  max-width:1400px; margin:18px auto 0; padding:0 40px;
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:10px;
+  position:relative; z-index:1;
+}
+.banner-card {
+  display:flex; align-items:center; gap:12px; padding:12px 16px;
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:10px; text-decoration:none; transition:all .2s;
+}
+.banner-card:hover { transform:translateY(-2px); }
+.bc-dot {
+  width:36px; height:36px; border-radius:8px; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+}
+.bc-tag  { font-family:'Space Mono',monospace; font-size:9px; letter-spacing:.12em; text-transform:uppercase; font-weight:700; margin-bottom:3px; }
+.bc-name { font-size:12px; font-weight:700; color:var(--text); }
+.bc-sub  { font-size:10px; font-family:'Space Mono',monospace; color:var(--text-muted); margin-top:1px; }
+.bc-arr  { margin-left:auto; font-size:16px; flex-shrink:0; }
+
+@media(max-width:600px) {
+  .course-banner { padding:0 16px; }
+  .rm-ribbon { gap:4px; }
+}
+
+  /* ── COMPACT CALENDAR GRID ── */
+  .days-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    margin-bottom: 6px;
+  }
+
+  .day-card {
+    aspect-ratio: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    transition: all 0.15s ease;
+    position: relative;
+    overflow: hidden;
+    min-height: 0;
+    padding: 4px 2px;
+  }
+
+  .day-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    opacity: 0;
+    transition: opacity 0.15s;
+    border-radius: 8px 8px 0 0;
+  }
+  .day-card:hover::before { opacity: 1; }
+  .day-card:hover {
+    transform: translateY(-2px);
+    border-color: #2d3f58;
+    background: var(--surface2);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+    z-index: 2;
+  }
+
+  .day-card.done { background: var(--done-bg); border-color: var(--done-border); }
+  .day-card.done::after {
+    content: '✓';
+    position: absolute;
+    top: 2px; right: 4px;
+    font-size: 8px;
+    color: var(--accent-excel);
+    font-weight: 700;
+  }
+
+  .day-number {
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1;
+  }
+  .day-card.done .day-number { color: var(--accent-excel); }
+
+  .day-label {
+    font-size: 6px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    line-height: 1;
+  }
+
+  /* Phase color strips on top */
+  .day-card.intro::before  { background: var(--accent-intro); }
+  .day-card.excel::before  { background: var(--accent-excel); }
+  .day-card.sql::before    { background: var(--accent-sql);   }
+  .day-card.python::before { background: var(--accent-python);}
+  .day-card.sqladv::before { background: var(--accent-sqladv);}
+  .day-card.data::before   { background: var(--accent-data);  }
+  .day-card.stats::before  { background: var(--accent-stats); }
+  .day-card.viz::before    { background: var(--accent-viz);   }
+  .day-card.proj::before   { background: var(--accent-proj);  }
+
+  /* Phase label colors */
+  .day-card.intro  .day-label { color: rgba(245,158,11,0.85);  }
+  .day-card.excel  .day-label { color: rgba(34,197,94,0.75);   }
+  .day-card.sql    .day-label { color: rgba(59,130,246,0.75);  }
+  .day-card.python .day-label { color: rgba(236,72,153,0.8);   }
+  .day-card.sqladv .day-label { color: rgba(96,165,250,0.85);  }
+  .day-card.data   .day-label { color: rgba(6,182,212,0.8);    }
+  .day-card.stats  .day-label { color: rgba(139,92,246,0.8);   }
+  .day-card.viz    .day-label { color: rgba(249,115,22,0.8);   }
+  .day-card.proj   .day-label { color: rgba(239,68,68,0.75);   }
+
+  /* Phase number accent on hover */
+  .day-card.intro:hover  .day-number { color: #f59e0b; }
+  .day-card.excel:hover  .day-number { color: #22c55e; }
+  .day-card.sql:hover    .day-number { color: #3b82f6; }
+  .day-card.python:hover .day-number { color: #ec4899; }
+  .day-card.sqladv:hover .day-number { color: #60a5fa; }
+  .day-card.data:hover   .day-number { color: #06b6d4; }
+  .day-card.stats:hover  .day-number { color: #8b5cf6; }
+  .day-card.viz:hover    .day-number { color: #f97316; }
+  .day-card.proj:hover   .day-number { color: #ef4444; }
+
+  /* Phase section spacing */
+  .phase-section { margin-bottom: 28px; }
+
+  /* Phase header compact */
+  .phase-hdr {
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    border-radius: 10px;
+  }
+  .ph-title { font-size: 13px; }
+  .topic-chip { font-size: 9px; padding: 1px 6px; }
+  .ph-days { font-size: 10px; }
+
+  /* Responsive: smaller screens stay 7 cols but smaller */
+  @media (max-width: 900px) {
+    .days-grid { grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  }
+  @media (max-width: 600px) {
+    .days-grid { grid-template-columns: repeat(5, 1fr); gap: 3px; }
+    .day-number { font-size: 11px; }
+    .day-label  { font-size: 5px; }
+  }
+
+  /* Week-day header row */
+  .week-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    margin-bottom: 5px;
+  }
+  .week-day {
+    text-align: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 8px;
+    color: var(--text-muted);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    padding: 3px 0;
+  }
+
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div>
+      <div class="logo">↗ Ruta de aprendizaje completa</div>
+      <h1>Data Analyst<br><span>Roadmap · 120 Días</span></h1>
+      <div class="rm-ribbon">
+        <div class="rm-pill" style="color:#f59e0b;border-color:#f59e0b;background:rgba(245,158,11,.1)">🧭 Intro</div>
+        <span class="rm-arr">→</span>
+        <div class="rm-pill" style="color:#22c55e;border-color:#22c55e;background:rgba(34,197,94,.1)">📊 Excel</div>
+        <span class="rm-arr">→</span>
+        <div class="rm-pill" style="color:#3b82f6;border-color:#3b82f6;background:rgba(59,130,246,.1)">🗄️ SQL</div>
+        <span class="rm-arr">→</span>
+        <div class="rm-pill" style="color:#ec4899;border-color:#ec4899;background:rgba(236,72,153,.1)">🐍 Python</div>
+        <span class="rm-arr">→</span>
+        <div class="rm-pill" style="color:#60a5fa;border-color:#60a5fa;background:rgba(96,165,250,.1)">⚡ SQL Adv.</div>
+        <span class="rm-arr">→</span>
+        <div class="rm-pill" style="color:#06b6d4;border-color:#06b6d4;background:rgba(6,182,212,.1)">🗃️ Datos</div>
+        <span class="rm-arr">→</span>
+        <div class="rm-pill" style="color:#8b5cf6;border-color:#8b5cf6;background:rgba(139,92,246,.1)">📐 Stats</div>
+        <span class="rm-arr">→</span>
+        <div class="rm-pill" style="color:#f97316;border-color:#f97316;background:rgba(249,115,22,.1)">📈 Power BI</div>
+        <span class="rm-arr">→</span>
+        <div class="rm-pill" style="color:#ef4444;border-color:#ef4444;background:rgba(239,68,68,.1)">🚀 Proyectos</div>
+      </div>
+    </div>
+    <div class="progress-panel">
+      <div class="progress-label">PROGRESO TOTAL</div>
+      <div class="progress-count" id="progressCount">0 <small>/ 120 días</small></div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      <div class="progress-label" id="progressPct">0% completado</div>
+    </div>
+  </div>
+</header>
+
+<!-- Course Banner -->
+<div class="course-banner">
+  <a class="banner-card" href="https://www.youtube.com/watch?v=pCJ15nGFgVg" target="_blank" rel="noopener" style="border-color:rgba(34,197,94,.3);" onmouseover="this.style.borderColor='rgba(34,197,94,.7)'" onmouseout="this.style.borderColor='rgba(34,197,94,.3)'">
+    <div class="bc-dot" style="background:#22c55e"><svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></div>
+    <div><div class="bc-tag" style="color:#22c55e">📊 EXCEL · DÍAS 6–19</div><div class="bc-name">Excel Full Course</div><div class="bc-sub">pCJ15nGFgVg · Funciones, Pivot Tables, Dashboard</div></div>
+    <div class="bc-arr" style="color:#22c55e">↗</div>
+  </a>
+  <a class="banner-card" href="https://www.youtube.com/watch?v=7mz73uXD9DA" target="_blank" rel="noopener" style="border-color:rgba(59,130,246,.3);" onmouseover="this.style.borderColor='rgba(59,130,246,.7)'" onmouseout="this.style.borderColor='rgba(59,130,246,.3)'">
+    <div class="bc-dot" style="background:#3b82f6"><svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></div>
+    <div><div class="bc-tag" style="color:#3b82f6">🗄️ SQL · DÍAS 20–35</div><div class="bc-name">SQL Full Course</div><div class="bc-sub">7mz73uXD9DA · SELECT → JOIN → Window Functions</div></div>
+    <div class="bc-arr" style="color:#3b82f6">↗</div>
+  </a>
+  <a class="banner-card" href="https://www.youtube.com/watch?v=wUSDVGivd-8" target="_blank" rel="noopener" style="border-color:rgba(236,72,153,.3);" onmouseover="this.style.borderColor='rgba(236,72,153,.7)'" onmouseout="this.style.borderColor='rgba(236,72,153,.3)'">
+    <div class="bc-dot" style="background:#ec4899"><svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></div>
+    <div><div class="bc-tag" style="color:#ec4899">🐍 PYTHON · DÍAS 36–50</div><div class="bc-name">Python for Data Analytics</div><div class="bc-sub">wUSDVGivd-8 · Luke Barousse · Pandas, Matplotlib, Seaborn</div></div>
+    <div class="bc-arr" style="color:#ec4899">↗</div>
+  </a>
+  <a class="banner-card" href="https://www.youtube.com/watch?v=QKIGsShyEsQ" target="_blank" rel="noopener" style="border-color:rgba(96,165,250,.3);" onmouseover="this.style.borderColor='rgba(96,165,250,.7)'" onmouseout="this.style.borderColor='rgba(96,165,250,.3)'">
+    <div class="bc-dot" style="background:#60a5fa"><svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></div>
+    <div><div class="bc-tag" style="color:#60a5fa">⚡ SQL ADV · DÍAS 51–60</div><div class="bc-name">SQL Intermediate + Project</div><div class="bc-sub">QKIGsShyEsQ · Luke Barousse · CTEs, Window Fn, Proyecto</div></div>
+    <div class="bc-arr" style="color:#60a5fa">↗</div>
+  </a>
+  <a class="banner-card" href="https://www.youtube.com/watch?v=FwjaHCVNBWA" target="_blank" rel="noopener" style="border-color:rgba(249,115,22,.3);" onmouseover="this.style.borderColor='rgba(249,115,22,.7)'" onmouseout="this.style.borderColor='rgba(249,115,22,.3)'">
+    <div class="bc-dot" style="background:#f97316"><svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></div>
+    <div><div class="bc-tag" style="color:#f97316">📈 POWER BI · DÍAS 83–95</div><div class="bc-name">Power BI Full Course</div><div class="bc-sub">FwjaHCVNBWA · Luke Barousse · 8h · Desktop, DAX, Power Query</div></div>
+    <div class="bc-arr" style="color:#f97316">↗</div>
+  </a>
+</div>
+
+<!-- Filters -->
+<div class="filters" style="margin-top:20px;">
+  <button class="filter-btn active" data-phase="all"    onclick="fp('all',this)">Todos</button>
+  <button class="filter-btn" data-phase="intro"   onclick="fp('intro',this)">🧭 Intro</button>
+  <button class="filter-btn" data-phase="excel"   onclick="fp('excel',this)">📊 Excel</button>
+  <button class="filter-btn" data-phase="sql"     onclick="fp('sql',this)">🗄️ SQL</button>
+  <button class="filter-btn" data-phase="python"  onclick="fp('python',this)">🐍 Python</button>
+  <button class="filter-btn" data-phase="sqladv"  onclick="fp('sqladv',this)">⚡ SQL Adv.</button>
+  <button class="filter-btn" data-phase="data"    onclick="fp('data',this)">🗃️ Datos</button>
+  <button class="filter-btn" data-phase="stats"   onclick="fp('stats',this)">📐 Stats</button>
+  <button class="filter-btn" data-phase="viz"     onclick="fp('viz',this)">📈 Power BI</button>
+  <button class="filter-btn" data-phase="proj"    onclick="fp('proj',this)">🚀 Proyectos</button>
+  <button class="filter-btn" data-phase="done"    onclick="fp('done',this)" style="margin-left:auto">✅ Completados</button>
+</div>
+
+<main id="mainContainer"></main>
+
+<!-- MODAL -->
+<div class="overlay" id="overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      <div class="modal-top">
+        <span class="modal-day-num" id="mDayNum">DÍA —</span>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+      <div class="modal-title" id="mTitle"></div>
+      <div id="mBadge"></div>
+    </div>
+    <div class="modal-body" id="mBody"></div>
+    <div class="modal-footer" id="mFooter"></div>
+  </div>
+</div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────────
+const D = {
+  1: {phase:"intro",title:"¿Qué es Data Analytics? Los 4 tipos",video:{type:"none",label:"YouTube: tipos de analytics descriptivo diagnostico predictivo prescriptivo"},ibm:true,tasks:["Ver video introductorio sobre Data Analytics","Definir con tus palabras qué hace un Data Analyst","Leer: diferencias entre DA, Data Scientist y Data Engineer","Identificar 3 sectores donde se usa el análisis de datos","Instalar: VS Code, Python (Anaconda), crear cuenta Google"]},
+  2: {phase:"intro",title:"Descriptive Analytics: ¿qué pasó?",video:{type:"none",label:"YouTube: descriptive analytics ejemplos casos uso data analyst español"},ibm:true,tasks:["Analytics Descriptivo: resume lo que ya ocurrió","Ejemplos reales: ventas del mes, visitas web, NPS","Herramientas: Excel, SQL, dashboards","Práctica: describe en texto los datos de una empresa ficticia","Anotar 2 preguntas de negocio que responde este analytics"]},
+  3: {phase:"intro",title:"Diagnostic & Predictive Analytics",video:{type:"none",label:"YouTube: diagnostic analytics vs predictive analytics ejemplos español"},ibm:true,tasks:["Diagnóstico: busca causas y correlaciones (¿por qué bajaron las ventas?)","Predictivo: modelos y pronósticos (¿qué pasará?)","Prescriptivo: recomienda acciones óptimas (pricing dinámico)","Diferencia entre correlación y causalidad","Resumen escrito: los 4 tipos con un ejemplo de negocio cada uno"]},
+  4: {phase:"intro",title:"Key Concepts: ciclo del dato",video:{type:"none",label:"YouTube: ciclo de vida del dato EDA exploratory data analysis español"},ibm:true,tasks:["Ciclo del dato: Colección → Limpieza → EDA → Análisis → Visualización","Calidad del dato: completitud, consistencia, precisión","Datos sucios: nulos, duplicados, outliers, errores de formato","¿Qué es EDA (Exploratory Data Analysis)?","Diferencia entre datos cualitativos y cuantitativos"]},
+  5: {phase:"intro",title:"Statistical Analysis & Machine Learning: visión general",video:{type:"none",label:"YouTube: python vs R data analyst elegir lenguaje estadística ML español 2024"},ibm:true,tasks:["Conceptos estadísticos esenciales: media, mediana, desviación estándar","¿Qué es Machine Learning y cuándo lo usa un Data Analyst?","Diferencia entre análisis estadístico clásico y ML","Elegir tu lenguaje: Python vs R (recomendado: Python)","Revisar el roadmap completo y planificar los próximos 115 días"]},
+  6: {phase:"excel",title:"Excel: SUM, AVERAGE, COUNT — primeros pasos",video:{type:"embed",url:"https://www.youtube.com/embed/pCJ15nGFgVg?start=0",label:"Excel Full Course · 0:00 — Introducción al curso"},ibm:true,tasks:["Abrir Excel o Google Sheets","Crear tabla: 20 ventas (producto, cantidad, precio)","Usar =SUM() para el total de ventas","Usar =AVERAGE() para el ticket medio","Usar =COUNT() y =COUNTA() para contar filas"]},
+  7: {phase:"excel",title:"Excel: Tablas, filtros y ordenación",video:{type:"embed",url:"https://www.youtube.com/embed/pCJ15nGFgVg?start=900",label:"Excel Full Course · ~15:00 — Tablas y Formato"},ibm:true,tasks:["Convertir rango en Tabla con Ctrl+T","Aplicar estilo de tabla legible","Activar filtros y filtrar ventas > 100€","Ordenar por importe de mayor a menor","Añadir columna Total = cantidad × precio y formatear como moneda"]},
+  8: {phase:"excel",title:"Excel: IF (SI) — condicionales básicos",video:{type:"embed",url:"https://www.youtube.com/embed/pCJ15nGFgVg?start=2700",label:"Excel Full Course · ~45:00 — Función IF"},ibm:true,tasks:["Sintaxis: =IF(condición, valor_si, valor_no)","Crear columna 'Categoría': si venta >200 → 'Alta', si no → 'Baja'","Probar con distintos umbrales","Anidar IFs: Alta / Media / Baja","Combinar con =AND() y =OR()"]},
+  9: {phase:"excel",title:"Excel: DATEDIF + funciones de fecha",video:{type:"embed",url:"https://www.youtube.com/embed/pCJ15nGFgVg?start=3600",label:"Excel Full Course · ~60:00 — Fechas y Texto"},ibm:true,tasks:["=TODAY() y =NOW() para fecha actual","=DATEDIF(inicio, fin, 'D') → días entre fechas","Calcular antigüedad en días y meses","Extraer mes/año: =MONTH(), =YEAR()","Ejercicio: calcular días desde cada venta hasta hoy"]},
+  10: {phase:"excel",title:"Excel: VLOOKUP / HLOOKUP",video:{type:"embed",url:"https://www.youtube.com/embed/pCJ15nGFgVg?start=4500",label:"Excel Full Course · ~75:00 — VLOOKUP"},ibm:true,tasks:["Crear tabla auxiliar de clientes (ID, nombre, ciudad)","=VLOOKUP(ID, rango_clientes, columna, FALSE)","Gestionar error #N/A con =IFERROR()","Entender cuándo usar VLOOKUP vs HLOOKUP","Ejercicio: enlazar tabla ventas con tabla clientes"]},
+  11: {phase:"excel",title:"Excel: XLOOKUP (versión moderna)",video:{type:"embed",url:"https://www.youtube.com/embed/pCJ15nGFgVg?start=5400",label:"Excel Full Course · ~90:00 — XLOOKUP"},ibm:true,tasks:["Repetir ejercicio del día 10 con =XLOOKUP()","XLOOKUP busca en cualquier dirección","=XLOOKUP(valor, rango_buscar, rango_devolver, 'No encontrado')","Comparar: ¿cuándo usar VLOOKUP vs XLOOKUP?","Ejercicio: buscar precio de producto en tabla de precios"]},
+  12: {phase:"excel",title:"Excel: REPLACE, SUBSTITUTE, CONCAT, TRIM",video:{type:"embed",url:"https://www.youtube.com/embed/pCJ15nGFgVg?start=6300",label:"Excel Full Course · ~105:00 — Limpieza de datos"},ibm:true,tasks:["=SUBSTITUTE() para reemplazar texto dentro de celda","=REPLACE() para reemplazar por posición","=CONCAT() o =TEXTJOIN() para unir columnas","=TRIM() para eliminar espacios extra","=LEN() para detectar campos vacíos o mal formateados"]},
+  13: {phase:"excel",title:"Excel: UPPER, LOWER, PROPER + LEFT/MID/RIGHT",video:{type:"embed",url:"https://www.youtube.com/embed/pCJ15nGFgVg?start=7200",label:"Excel Full Course · ~120:00 — Funciones de Texto"},ibm:true,tasks:["=UPPER() → convertir a MAYÚSCULAS","=LOWER() → convertir a minúsculas","=PROPER() → Primera Letra En Mayúscula","=LEFT(texto, n) y =RIGHT(texto, n) para extraer","=MID(texto, inicio, n) para extraer parte central"]},
+  14: {phase:"excel",title:"Excel: MIN, MAX + Tablas Dinámicas",video:{type:"embed",url:"https://www.youtube.com/embed/pCJ15nGFgVg?start=8100",label:"Excel Full Course · ~135:00 — Pivot Tables"},ibm:true,tasks:["=MIN() y =MAX() con =MINIFS y =MAXIFS condicionales","=COUNTIF() y =SUMIF() con criterio","Insertar tabla dinámica desde tus datos de ventas","Agrupar por producto y sumar importe","Cambiar SUM por COUNT para ver número de ventas"]},
+  15: {phase:"excel",title:"Excel: Gráficos — Charting",video:{type:"embed",url:"https://www.youtube.com/embed/pCJ15nGFgVg?start=9000",label:"Excel Full Course · ~150:00 — Gráficos"},ibm:true,tasks:["Gráfico de barras: ventas por producto","Gráfico de líneas: evolución mensual","Gráfico circular (pie chart)","Cambiar colores y añadir título al gráfico","Mover gráfico a una hoja nueva"]},
+  16: {phase:"excel",title:"Excel: Pivot Tables avanzadas + Slicers",video:{type:"embed",url:"https://www.youtube.com/embed/pCJ15nGFgVg?start=9900",label:"Excel Full Course · ~165:00 — Dashboard"},ibm:true,tasks:["Tabla dinámica con múltiples filas y columnas","Cambiar SUM por COUNT, AVG u otras funciones","Añadir segmentadores (slicers) vinculados","Actualizar datos y refrescar la tabla dinámica","Probar filtros interactivos con los slicers"]},
+  17: {phase:"excel",title:"Excel: Mini Dashboard de análisis",video:{type:"link",url:"https://www.youtube.com/watch?v=pCJ15nGFgVg",label:"Excel Full Course · Repasar secciones de Dashboard"},ibm:true,tasks:["Crear hoja nueva 'Dashboard'","Añadir 3 KPIs: Total ventas, Promedio, # productos","Insertar 2 gráficos enlazados a tus datos","Usar slicers que filtren todo el dashboard","Ocultar líneas de cuadrícula para look profesional"]},
+  18: {phase:"excel",title:"Excel: Proyecto práctico con dataset real",video:{type:"link",url:"https://www.youtube.com/watch?v=pCJ15nGFgVg",label:"Excel Full Course · Repaso general"},ibm:true,tasks:["Buscar 'sample sales data CSV' en Google y descargar","Importar CSV en Excel","Aplicar: filtros, IF, VLOOKUP, tabla dinámica, gráficos","Crear mini dashboard con al menos 3 KPIs y 2 gráficos","Guardar como .xlsx con nombre descriptivo"]},
+  19: {phase:"excel",title:"Excel: Repaso completo + preparar SQL",video:{type:"link",url:"https://www.youtube.com/watch?v=pCJ15nGFgVg",label:"Excel Full Course · Ver partes con dudas"},ibm:true,tasks:["Revisar todas las fórmulas: IF, VLOOKUP, XLOOKUP, SUM, COUNTIF","Rehacer el mini dashboard del día 17 con datos nuevos","Anotar las 3 cosas que más te costaron","Buscar en YouTube cualquier concepto que no quedó claro","Instalar DB Browser for SQLite para empezar SQL mañana"]},
+  20: {phase:"sql",title:"SQL: SELECT básico — primeros pasos",video:{type:"embed",url:"https://www.youtube.com/embed/7mz73uXD9DA?start=0",label:"SQL Full Course · 0:00 — Introducción a SQL"},ibm:true,tasks:["Crear tabla 'ventas': id, producto, cantidad, precio, fecha","Insertar 10 filas de datos de ejemplo","Ejecutar: SELECT * FROM ventas","Ejecutar: SELECT producto, precio FROM ventas","Diferencia entre SELECT * y SELECT columnas específicas"]},
+  21: {phase:"sql",title:"SQL: WHERE — filtrar datos",video:{type:"embed",url:"https://www.youtube.com/embed/7mz73uXD9DA?start=900",label:"SQL Full Course · ~15:00 — WHERE"},ibm:true,tasks:["SELECT * FROM ventas WHERE precio > 100","Filtrar por texto: WHERE producto = 'Laptop'","Usar AND: precio > 50 AND producto = 'Mouse'","Usar OR: precio > 200 OR producto = 'Teclado'","Usar !=  para excluir un valor"]},
+  22: {phase:"sql",title:"SQL: BETWEEN, IN, LIKE, IS NULL",video:{type:"embed",url:"https://www.youtube.com/embed/7mz73uXD9DA?start=1800",label:"SQL Full Course · ~30:00 — Operadores lógicos"},ibm:true,tasks:["BETWEEN: WHERE precio BETWEEN 50 AND 200","IN: WHERE producto IN ('Laptop','Teclado','Mouse')","LIKE: WHERE producto LIKE 'L%' (empieza por L)","LIKE: WHERE nombre LIKE '%ez' (termina en ez)","IS NULL / IS NOT NULL para detectar valores vacíos"]},
+  23: {phase:"sql",title:"SQL: ORDER BY — ordenar resultados",video:{type:"embed",url:"https://www.youtube.com/embed/7mz73uXD9DA?start=2700",label:"SQL Full Course · ~45:00 — ORDER BY"},ibm:true,tasks:["ORDER BY precio ASC → de menor a mayor","ORDER BY precio DESC → de mayor a menor","Ordenar por múltiples columnas a la vez","Combinar WHERE + ORDER BY en una sola query","Ejercicio: top 5 productos más caros que has vendido"]},
+  24: {phase:"sql",title:"SQL: LIMIT + ejercicio integrador #1",video:{type:"embed",url:"https://www.youtube.com/embed/7mz73uXD9DA?start=3600",label:"SQL Full Course · ~60:00 — LIMIT"},ibm:true,tasks:["LIMIT 5 → solo los primeros 5 resultados","LIMIT 1 con ORDER BY DESC → el registro más alto","OFFSET para paginación: LIMIT 5 OFFSET 5","Ejercicio: top 10 ventas por importe","Documentar queries con comentarios (--) en tu archivo .sql"]},
+  25: {phase:"sql",title:"SQL: GROUP BY + COUNT, SUM, AVG",video:{type:"embed",url:"https://www.youtube.com/embed/7mz73uXD9DA?start=4500",label:"SQL Full Course · ~75:00 — GROUP BY"},ibm:true,tasks:["SELECT producto, COUNT(*) FROM ventas GROUP BY producto","SELECT producto, SUM(precio) FROM ventas GROUP BY producto","AVG(), MAX(), MIN() por grupo","GROUP BY con múltiples columnas","Alias con AS: COUNT(*) AS num_ventas, SUM(precio) AS total"]},
+  26: {phase:"sql",title:"SQL: HAVING — filtrar grupos",video:{type:"embed",url:"https://www.youtube.com/embed/7mz73uXD9DA?start=6300",label:"SQL Full Course · ~105:00 — HAVING"},ibm:true,tasks:["Diferencia WHERE (antes de agrupar) vs HAVING (después)","Productos con más de 5 ventas: HAVING COUNT(*) > 5","Productos con total > 1000€: HAVING SUM(precio) > 1000","Combinar WHERE + GROUP BY + HAVING en una query","Ejercicio: top productos filtrando los que suman menos de 500€"]},
+  27: {phase:"sql",title:"SQL: MAX, MIN, Alias + columnas calculadas",video:{type:"embed",url:"https://www.youtube.com/embed/7mz73uXD9DA?start=7200",label:"SQL Full Course · ~120:00 — Funciones de agregación"},ibm:true,tasks:["MAX(precio) y MIN(precio) → venta más cara/barata","Columna calculada: cantidad * precio AS total","ROUND(AVG(precio), 2) → redondear a 2 decimales","Alias en tablas para queries más cortas: FROM ventas v","Ejercicio integrador: informe por producto (nº ventas, total, promedio)"]},
+  28: {phase:"sql",title:"SQL: INNER JOIN — unir tablas",video:{type:"embed",url:"https://www.youtube.com/embed/7mz73uXD9DA?start=9000",label:"SQL Full Course · ~150:00 — INNER JOIN"},ibm:true,tasks:["Crear tabla 'clientes': id, nombre, ciudad, email","Añadir columna cliente_id a tabla ventas","INNER JOIN: SELECT v.*, c.nombre FROM ventas v INNER JOIN clientes c ON v.cliente_id = c.id","Entender qué registros excluye INNER JOIN","Ejercicio: ventas con nombre del cliente incluido"]},
+  29: {phase:"sql",title:"SQL: LEFT JOIN + clientes sin ventas",video:{type:"embed",url:"https://www.youtube.com/embed/7mz73uXD9DA?start=9900",label:"SQL Full Course · ~165:00 — LEFT JOIN"},ibm:true,tasks:["LEFT JOIN: todos los clientes aunque no tengan ventas","Detectar clientes sin ninguna venta: WHERE ventas.id IS NULL","Diferencia práctica entre INNER y LEFT JOIN","Ejercicio: clientes con más de 3 compras (JOIN + GROUP BY + HAVING)","Guardar queries comentadas en tu archivo .sql"]},
+  30: {phase:"sql",title:"SQL: Subqueries — consultas anidadas",video:{type:"embed",url:"https://www.youtube.com/embed/7mz73uXD9DA?start=10800",label:"SQL Full Course · ~180:00 — Subqueries"},ibm:true,tasks:["Subquery en WHERE: precio > (SELECT AVG(precio) FROM ventas)","Subquery en FROM como tabla temporal con alias","Crear tabla 'categorias' y hacer triple JOIN","EXISTS para chequear si existen registros relacionados","Ejercicio: top clientes por gasto total"]},
+  31: {phase:"sql",title:"SQL: CTEs (WITH clause)",video:{type:"embed",url:"https://www.youtube.com/embed/7mz73uXD9DA?start=11700",label:"SQL Full Course · ~195:00 — CTE / WITH"},ibm:true,tasks:["Entender CTE: WITH nombre AS (SELECT ...) SELECT ...","Reescribir una subquery compleja como CTE","CTE múltiple: dos CTEs encadenados en una query","Ventajas de CTEs vs subqueries: legibilidad","Ejercicio: análisis de retención de clientes con CTE"]},
+  32: {phase:"sql",title:"SQL: Window Functions básicas",video:{type:"embed",url:"https://www.youtube.com/embed/7mz73uXD9DA?start=12600",label:"SQL Full Course · ~210:00 — Window Functions"},ibm:true,tasks:["ROW_NUMBER() OVER (ORDER BY precio DESC)","RANK() vs DENSE_RANK() — diferencia con empates","SUM() OVER (PARTITION BY producto) → subtotal por grupo","LAG() → valor de la fila anterior para comparar","Ejercicio: ranking de ventas por producto"]},
+  33: {phase:"sql",title:"SQL: Proyecto con dataset real",video:{type:"link",url:"https://www.youtube.com/watch?v=7mz73uXD9DA",label:"SQL Full Course · Repasar secciones con dudas"},ibm:true,tasks:["Descargar 'Superstore Sales' de Kaggle e importar en SQLite","5 queries de negocio: GROUP BY, JOIN, HAVING, CTE, Window Function","CREATE VIEW ventas_resumen AS (tu query compleja)","Casos reales: retención, clientes inactivos, análisis 80/20","Documentar todo con comentarios en el archivo .sql"]},
+  34: {phase:"sql",title:"SQL: Ejercicio integrador + repaso completo",video:{type:"link",url:"https://www.youtube.com/watch?v=7mz73uXD9DA",label:"SQL Full Course · Repaso general"},ibm:true,tasks:["Query: producto más vendido por cantidad con RANK()","Query: clientes inactivos (sin compras en 30 días)","Query: ventas acumuladas por mes con SUM OVER","Query: categoría más rentable con JOIN","Anotar las 5 queries SQL que más usarás en el trabajo"]},
+  35: {phase:"sql",title:"SQL: Casos reales de negocio + preparar Python",video:{type:"link",url:"https://www.youtube.com/watch?v=7mz73uXD9DA",label:"SQL Full Course · Casos de uso reales"},ibm:true,tasks:["Retención de clientes: compraron en mes 1 Y mes 2","Análisis 80/20: productos que generan el 80% de ingresos","Productos que nunca se han vendido","Día de la semana con más ventas (STRFTIME / DAYOFWEEK)","Instalar Python con Anaconda + abrir Jupyter Notebook"]},
+  36: {phase:"python",title:"Python: Introducción + Setup Google Colab",video:{type:"embed",url:"https://www.youtube.com/embed/wUSDVGivd-8?start=0",label:"Python for Data Analytics (Luke Barousse) · 0:00 — Intro y Setup"},ibm:false,tasks:["Abrir Google Colab: colab.research.google.com","Crear notebook: hola_python.ipynb","Variables: nombre = 'Ana', edad = 25, precio = 9.99","Tipos de datos: int, float, str, bool","Operaciones: suma, resta, multiplicación, división, módulo"]},
+  37: {phase:"python",title:"Python: Listas y Diccionarios",video:{type:"embed",url:"https://www.youtube.com/embed/wUSDVGivd-8?start=3900",label:"Python for Data Analytics · ~1:05 — Listas y Diccionarios"},ibm:false,tasks:["Listas: ventas = [100, 200, 350, 50]","Acceder: ventas[0], ventas[-1] (último)","Métodos: .append(), .remove(), .sort(), len()","Diccionarios: {'producto': 'Laptop', 'precio': 999}","Añadir clave nueva, modificar valor existente"]},
+  38: {phase:"python",title:"Python: Condicionales y Loops",video:{type:"embed",url:"https://www.youtube.com/embed/wUSDVGivd-8?start=6300",label:"Python for Data Analytics · ~1:45 — Condicionales y Loops"},ibm:false,tasks:["if precio > 100: print('caro') else: print('barato')","Operadores: >, <, ==, !=, and, or, not","For loop: for venta in ventas: print(venta)","While loop con contador para repeticiones controladas","List comprehension: [x*2 for x in ventas if x > 100]"]},
+  39: {phase:"python",title:"Python: Funciones y módulos",video:{type:"embed",url:"https://www.youtube.com/embed/wUSDVGivd-8?start=9300",label:"Python for Data Analytics · ~2:35 — Funciones"},ibm:false,tasks:["def calcular_total(precio, cantidad): return precio * cantidad","Llamar: calcular_total(9.99, 5)","Parámetros con valor por defecto: def saludar(nombre, saludo='Hola')","import math, import random — módulos estándar","Crear tu propio módulo .py y usarlo en otro archivo"]},
+  40: {phase:"python",title:"Python: NumPy — operaciones numéricas",video:{type:"embed",url:"https://www.youtube.com/embed/wUSDVGivd-8?start=10800",label:"Python for Data Analytics · ~3:00 — NumPy"},ibm:false,tasks:["import numpy as np","Arrays: arr = np.array([1,2,3,4,5])","Operaciones vectorizadas: arr * 2, arr + 10","np.mean(), np.std(), np.min(), np.max()","np.arange(0, 100, 5) y np.linspace(0, 1, 10)"]},
+  41: {phase:"python",title:"Python: Pandas — introducción a DataFrames",video:{type:"embed",url:"https://www.youtube.com/embed/wUSDVGivd-8?start=12600",label:"Python for Data Analytics · ~3:30 — Pandas Intro"},ibm:false,tasks:["import pandas as pd","df = pd.read_csv('ventas.csv')","df.head(), df.tail(), df.shape, df.dtypes","df.info() para ver nulos y tipos de una sola vez","Seleccionar: df['precio'], df[['precio','producto']]"]},
+  42: {phase:"python",title:"Python: Pandas — filtros y operaciones",video:{type:"embed",url:"https://www.youtube.com/embed/wUSDVGivd-8?start=16200",label:"Python for Data Analytics · ~4:30 — Pandas Filtros"},ibm:false,tasks:["Filtrar: df[df['precio'] > 100]","Múltiples condiciones: (df['precio'] > 100) & (df['producto'] == 'Laptop')","Columna calculada: df['total'] = df['precio'] * df['cantidad']","df.describe() → estadísticas completas automáticas","df.sort_values('precio', ascending=False)"]},
+  43: {phase:"python",title:"Python: Pandas — GroupBy y agregaciones",video:{type:"embed",url:"https://www.youtube.com/embed/wUSDVGivd-8?start=18600",label:"Python for Data Analytics · ~5:10 — Pandas GroupBy"},ibm:false,tasks:["df.groupby('producto')['precio'].sum()","Múltiples agregaciones: .agg({'precio': ['sum','mean','count']})","groupby con reset_index() para DataFrame limpio","pd.pivot_table() para tabla cruzada","Comparar: GroupBy en Python vs GROUP BY en SQL"]},
+  44: {phase:"python",title:"Python: Pandas — Merge (equivalente a JOIN)",video:{type:"embed",url:"https://www.youtube.com/embed/wUSDVGivd-8?start=21000",label:"Python for Data Analytics · ~5:50 — Pandas Merge"},ibm:false,tasks:["pd.merge(ventas, clientes, on='cliente_id', how='inner')","how='left' para LEFT JOIN","Merge con columnas distintas: left_on='id_v', right_on='id_c'","pd.concat([df1, df2]) para apilar DataFrames (UNION ALL)","Ejercicio: unir ventas + clientes + categorías"]},
+  45: {phase:"python",title:"Python: Matplotlib — visualización básica",video:{type:"embed",url:"https://www.youtube.com/embed/wUSDVGivd-8?start=23100",label:"Python for Data Analytics · ~6:25 — Matplotlib"},ibm:false,tasks:["import matplotlib.pyplot as plt","plt.bar(productos, ventas) → gráfico de barras","plt.plot(meses, ingresos) → gráfico de líneas","plt.title(), plt.xlabel(), plt.ylabel() → etiquetas","plt.savefig('grafico.png', dpi=150)"]},
+  46: {phase:"python",title:"Python: Seaborn — gráficos estadísticos",video:{type:"embed",url:"https://www.youtube.com/embed/wUSDVGivd-8?start=26400",label:"Python for Data Analytics · ~7:20 — Seaborn"},ibm:false,tasks:["import seaborn as sns","sns.histplot(df['precio'], bins=20) → distribución","sns.boxplot(x='categoria', y='precio', data=df) → outliers","sns.heatmap(df.corr(), annot=True) → correlaciones","sns.scatterplot(x='precio', y='cantidad', data=df)"]},
+  47: {phase:"python",title:"Python: Subplots + estilos avanzados",video:{type:"embed",url:"https://www.youtube.com/embed/wUSDVGivd-8?start=26400",label:"Python for Data Analytics · ~7:20 — Visualización avanzada"},ibm:false,tasks:["fig, axes = plt.subplots(2, 2, figsize=(12, 8))","plt.style.use('seaborn-v0_8') → estilo limpio","ax.annotate('máximo', xy=(x,y)) → anotaciones","ax.axhline(df['precio'].mean()) → línea de referencia","Exportar en alta resolución: plt.savefig('fig.png', dpi=300)"]},
+  48: {phase:"python",title:"Python: Plotly — gráficos interactivos",video:{type:"none",label:"YouTube: plotly python tutorial español data analyst gráficos interactivos express"},ibm:false,tasks:["pip install plotly","import plotly.express as px","px.bar(), px.line(), px.scatter() con tu dataset","Tooltips interactivos al pasar el cursor","fig.write_html('grafico.html') para compartir"]},
+  49: {phase:"python",title:"Python: Proyecto Capstone — análisis completo",video:{type:"embed",url:"https://www.youtube.com/embed/wUSDVGivd-8?start=29400",label:"Python for Data Analytics · ~8:10 — Proyecto Capstone"},ibm:false,tasks:["Cargar dataset Superstore en Pandas","Limpieza: nulos, duplicados, tipos de datos","3 análisis con GroupBy: categoría, región, mes","Crear 3 gráficos: barras, líneas, scatter","Guardar notebook y subir a GitHub (portafolio)"]},
+  50: {phase:"python",title:"Python: Repaso completo + preparar SQL Avanzado",video:{type:"link",url:"https://www.youtube.com/watch?v=wUSDVGivd-8",label:"Python for DA · Repasar secciones con dudas"},ibm:false,tasks:["Revisar: variables, listas, loops, funciones","Revisar: NumPy, Pandas (filtros, groupby, merge)","Revisar: Matplotlib y Seaborn","Día 50: ¡mitad del camino! Escribe qué has aprendido","Instalar PostgreSQL + DBeaver para SQL Avanzado"]},
+  51: {phase:"sqladv",title:"SQL Avanzado: Intro + Setup PostgreSQL y DBeaver",video:{type:"embed",url:"https://www.youtube.com/embed/QKIGsShyEsQ?start=0",label:"SQL Intermediate (Luke Barousse) · 0:00 — Intro y Setup"},ibm:false,tasks:["Instalar PostgreSQL y DBeaver (ambos gratuitos)","Conectar DBeaver a tu servidor PostgreSQL local","Descargar la base de datos Contoso del enlace del curso","Explorar las tablas con SELECT * LIMIT 100","Familiarizarte con el esquema: clientes, ventas, productos"]},
+  52: {phase:"sqladv",title:"SQL Avanzado: Subqueries avanzadas",video:{type:"embed",url:"https://www.youtube.com/embed/QKIGsShyEsQ?start=3600",label:"SQL Intermediate · ~1:00 — Subqueries avanzadas"},ibm:false,tasks:["Subquery correlacionada: referencia a la query exterior","Subquery en SELECT: diferencia vs promedio por fila","EXISTS y NOT EXISTS para chequear existencia","Subquery en FROM con alias: FROM (SELECT ...) AS t","Ejercicio: productos cuyo precio supera el promedio de su categoría"]},
+  53: {phase:"sqladv",title:"SQL Avanzado: CTEs avanzadas y encadenadas",video:{type:"embed",url:"https://www.youtube.com/embed/QKIGsShyEsQ?start=7200",label:"SQL Intermediate · ~2:00 — CTEs avanzadas"},ibm:false,tasks:["CTEs encadenadas: WITH cte1 AS (...), cte2 AS (...) SELECT...","Cuándo usar CTE vs subquery vs vista (VIEW)","CTE recursiva para jerarquías y árboles de datos","Ejercicio: análisis de ventas en 3 pasos con CTEs encadenadas","Guardar en tu archivo de queries con comentarios claros"]},
+  54: {phase:"sqladv",title:"SQL Avanzado: Window Functions — ROW_NUMBER, RANK",video:{type:"embed",url:"https://www.youtube.com/embed/QKIGsShyEsQ?start=9000",label:"SQL Intermediate · ~2:30 — Window Functions básicas"},ibm:false,tasks:["ROW_NUMBER() OVER (ORDER BY ventas DESC) → numeración única","RANK() → deja huecos con empates (1,2,2,4)","DENSE_RANK() → sin huecos (1,2,2,3)","NTILE(4) OVER (ORDER BY ventas) → dividir en cuartiles","Ejercicio: top 3 productos por ingresos dentro de cada categoría"]},
+  55: {phase:"sqladv",title:"SQL Avanzado: Window Functions — SUM OVER, LAG, LEAD",video:{type:"embed",url:"https://www.youtube.com/embed/QKIGsShyEsQ?start=12600",label:"SQL Intermediate · ~3:30 — Window Functions avanzadas"},ibm:false,tasks:["SUM(ventas) OVER (PARTITION BY categoria ORDER BY fecha) → acumulado","AVG(precio) OVER (PARTITION BY producto) → promedio del grupo","LAG(ventas, 1) → ventas del período anterior","LEAD(ventas, 1) → ventas del período siguiente","Ejercicio: crecimiento % mes a mes con LAG()"]},
+  56: {phase:"sqladv",title:"SQL Avanzado: CASE WHEN + funciones de fecha",video:{type:"embed",url:"https://www.youtube.com/embed/QKIGsShyEsQ?start=18000",label:"SQL Intermediate · ~5:00 — CASE WHEN + Date Functions"},ibm:false,tasks:["CASE WHEN precio > 500 THEN 'Caro' WHEN > 100 THEN 'Medio' ELSE 'Barato' END","CASE dentro de SUM: ventas de cada mes en columnas separadas","Funciones de fecha: EXTRACT(MONTH FROM fecha), DATE_TRUNC","Diferencia entre fechas: fecha2 - fecha1","Ejercicio: pivot de ventas por mes usando CASE WHEN"]},
+  57: {phase:"sqladv",title:"SQL Avanzado: Funciones de texto + optimización",video:{type:"embed",url:"https://www.youtube.com/embed/QKIGsShyEsQ?start=21000",label:"SQL Intermediate · ~5:50 — Funciones de texto"},ibm:false,tasks:["LOWER(), UPPER(), TRIM() para limpiar texto en SQL","SUBSTRING(), LEFT(), RIGHT() para extraer partes","CONCAT() y || para unir strings","REPLACE() para corregir texto en masa","CREATE INDEX en columnas frecuentemente filtradas para velocidad"]},
+  58: {phase:"sqladv",title:"SQL Avanzado: Análisis RFM completo en SQL",video:{type:"embed",url:"https://www.youtube.com/embed/QKIGsShyEsQ?start=23400",label:"SQL Intermediate · ~6:30 — Análisis avanzado"},ibm:false,tasks:["RFM = Recencia, Frecuencia, Monetario","Calcular R: días desde última compra con DATEDIFF","Calcular F: número de transacciones por cliente con COUNT","Calcular M: valor total de compras con SUM","Asignar score 1-5 con NTILE(5) OVER (ORDER BY R/F/M)"]},
+  59: {phase:"sqladv",title:"SQL Avanzado: Proyecto — análisis de datos reales",video:{type:"embed",url:"https://www.youtube.com/embed/QKIGsShyEsQ?start=25200",label:"SQL Intermediate · ~7:00 — Proyecto final SQL"},ibm:false,tasks:["Conectar dataset Superstore a DBeaver/PostgreSQL","5 queries de negocio con CTE + Window Functions","Análisis de retención de cohortes en SQL puro","Guardar queries documentadas en archivo .sql","Preparar el análisis para importarlo en Power BI"]},
+  60: {phase:"sqladv",title:"SQL Avanzado: Repaso completo SQL Básico + Avanzado",video:{type:"link",url:"https://www.youtube.com/watch?v=QKIGsShyEsQ",label:"SQL Intermediate · Repasar secciones con dudas"},ibm:false,tasks:["Revisar: SELECT, WHERE, ORDER BY, LIMIT, GROUP BY, HAVING","Revisar: JOIN (INNER, LEFT), Subqueries, CTEs","Revisar: Window Functions (RANK, LAG, SUM OVER)","Revisar: CASE WHEN, funciones de texto y fecha","Día 60: ¡60 días completados! Escribe qué has aprendido"]},
+  61: {phase:"data",title:"Data Collection: Bases de datos con Python",video:{type:"none",label:"YouTube: python sqlite pandas read_sql conexión base datos tutorial español"},ibm:false,tasks:["import sqlite3 en Python","pd.read_sql('SELECT * FROM ventas', conn) → directo a DataFrame","Cuándo usar CSV vs Base de datos","Explorar bases públicas: Chinook, Northwind","Descargar Chinook DB y explorar con SQL + Python"]},
+  62: {phase:"data",title:"Data Collection: CSV Files + múltiples archivos",video:{type:"none",label:"YouTube: pandas read_csv python tutorial español separadores encoding múltiples"},ibm:false,tasks:["Leer con separadores distintos: sep=';', sep='|'","Leer con encoding: encoding='latin-1' o 'utf-8'","CSV sin cabecera: header=None, names=['col1','col2']","Leer múltiples CSVs y concatenar: pd.concat([df1, df2])","Exportar limpio: df.to_csv('limpio.csv', index=False)"]},
+  63: {phase:"data",title:"Data Collection: APIs — datos en tiempo real",video:{type:"none",label:"YouTube: python requests API REST JSON tutorial español data analyst principiantes"},ibm:false,tasks:["¿Qué es una API REST? Endpoint, método GET, JSON","pip install requests","import requests; r = requests.get(url).json()","Practicar con API pública: Open-Meteo (clima) o CoinGecko","Convertir respuesta JSON a DataFrame de Pandas"]},
+  64: {phase:"data",title:"Data Collection: Web Scraping básico",video:{type:"none",label:"YouTube: web scraping python beautifulsoup tutorial español 2024 principiantes"},ibm:false,tasks:["pip install requests beautifulsoup4","Inspeccionar HTML con DevTools del navegador (F12)","Extraer texto: soup.find(), soup.find_all()","pd.read_html(url) → tablas HTML directas a DataFrame","Guardar datos scrapeados como CSV"]},
+  65: {phase:"data",title:"Data Cleanup: Handling Missing Data",video:{type:"none",label:"YouTube: pandas valores nulos missing data python tutorial español data cleaning"},ibm:false,tasks:["Detectar nulos: df.isnull().sum()","Visualizar nulos: sns.heatmap(df.isnull())","Eliminar filas: df.dropna()","Rellenar con media: df.fillna(df.mean(numeric_only=True))","Rellenar hacia adelante: df.fillna(method='ffill')"]},
+  66: {phase:"data",title:"Data Cleanup: Removing Duplicates",video:{type:"none",label:"YouTube: pandas duplicados python drop_duplicates tutorial español data cleaning"},ibm:false,tasks:["Detectar duplicados: df.duplicated().sum()","Ver duplicados: df[df.duplicated(keep=False)]","Eliminar: df.drop_duplicates()","Por subconjunto: df.drop_duplicates(subset=['id','fecha'])","keep='first' o keep='last' para elegir cuál mantener"]},
+  67: {phase:"data",title:"Data Cleanup: Finding Outliers",video:{type:"none",label:"YouTube: outliers python pandas detección IQR zscore tutorial español data analyst"},ibm:false,tasks:["Boxplot: sns.boxplot(df['precio']) para visualizar","Método IQR: Q1, Q3 con df.quantile(.25) y .75","Límite inferior = Q1 - 1.5*(Q3-Q1); superior = Q3 + 1.5*(Q3-Q1)","Z-score: (valor - media) / std → abs > 3 es outlier","Decidir: eliminar, transformar (log) o marcar con flag"]},
+  68: {phase:"data",title:"Data Cleanup: Data Transformation",video:{type:"none",label:"YouTube: pandas transformación datos python to_datetime normalizar estandarizar español"},ibm:false,tasks:["Cambiar tipos: df['fecha'] = pd.to_datetime(df['fecha'])","Extraer partes: df['mes'] = df['fecha'].dt.month","Categorías a números: pd.get_dummies() o LabelEncoder","Normalizar (0-1): (x - min) / (max - min)","Estandarizar (Z): (x - media) / std"]},
+  69: {phase:"data",title:"Data Cleanup: Pipeline Pandas completo",video:{type:"none",label:"YouTube: pandas pipeline limpieza datos python función reutilizable tutorial español"},ibm:false,tasks:["Crear función: def limpiar(df): ... return df_limpio","Encadenar: df.pipe(limpiar).pipe(transformar)","Validar: assert df.isnull().sum().sum() == 0","Documentar cada decisión de limpieza con comentarios","Comparar Pandas vs dplyr (R) — entender las diferencias"]},
+  70: {phase:"data",title:"Data Handling: Proyecto integrador pipeline completo",video:{type:"none",label:"YouTube: data pipeline python pandas proyecto ETL completo español tutorial"},ibm:false,tasks:["Elegir fuente: CSV de Kaggle o API pública","Pipeline completo: colección → limpieza → transformación → exportar","Documentar todo el proceso en un Jupyter Notebook","Subir notebook a GitHub — primera pieza del portafolio","Validar que el dataset final está listo para análisis estadístico"]},
+  71: {phase:"stats",title:"Estadística: Tendencia Central",video:{type:"none",label:"YouTube: estadística descriptiva python pandas data analyst español media mediana moda"},ibm:false,tasks:["df.mean(), df.median(), df.mode() — tendencia central","Cuándo usar media vs mediana (outliers: usa mediana)","df.describe() → resumen estadístico completo en una línea","Frecuencias: df['categoria'].value_counts()","Frecuencias relativas: value_counts(normalize=True)"]},
+  72: {phase:"stats",title:"Estadística: Dispersión — rango, varianza, std",video:{type:"none",label:"YouTube: estadística descriptiva dispersión varianza desviación estándar python español"},ibm:false,tasks:["Rango: df['precio'].max() - df['precio'].min()","Varianza: df['precio'].var()","Desviación estándar: df['precio'].std()","Coeficiente de variación: std / mean * 100","Interpretar: ¿qué dice la dispersión sobre el negocio?"]},
+  73: {phase:"stats",title:"Estadística: Distribuciones — Skewness y Kurtosis",video:{type:"none",label:"YouTube: skewness kurtosis asimetría curtosis python estadística español data analyst"},ibm:false,tasks:["Asimetría (Skewness): df.skew() → positiva vs negativa","Curtosis (Kurtosis): df.kurt() → apuntada vs plana","Visualizar: sns.histplot(df['precio'], kde=True)","sns.kdeplot() para densidad de probabilidad suavizada","Interpretar: cola derecha larga, distribución normal, etc."]},
+  74: {phase:"stats",title:"Estadística: Visualizando Distribuciones",video:{type:"none",label:"YouTube: visualizar distribuciones python seaborn matplotlib histograma boxplot violinplot español"},ibm:false,tasks:["Histograma: sns.histplot(df['precio'], bins=20)","Boxplot por categoría: sns.boxplot(x='cat', y='precio', data=df)","Violinplot: combina boxplot + KDE en un visual","Pairplot: sns.pairplot(df) → todas las relaciones de golpe","Interpretar cada gráfico en términos de negocio real"]},
+  75: {phase:"stats",title:"Estadística: Hypothesis Testing",video:{type:"none",label:"YouTube: hypothesis testing python scipy stats español prueba hipótesis data analyst"},ibm:false,tasks:["H0 (hipótesis nula) vs H1 (hipótesis alternativa)","p-value: si p < 0.05 rechazamos H0","t-test dos grupos: scipy.stats.ttest_ind(grupo_A, grupo_B)","Ejemplo: ¿venden más los lunes que los viernes?","Interpretar el resultado con lenguaje de negocio"]},
+  76: {phase:"stats",title:"Estadística: Correlation Analysis",video:{type:"none",label:"YouTube: correlación python pandas seaborn heatmap español data analyst tutorial"},ibm:false,tasks:["df.corr() → matriz de correlaciones de Pearson","Heatmap: sns.heatmap(df.corr(), annot=True, cmap='coolwarm')","Correlación de Spearman para datos no lineales","Interpretar: +1 perfecta positiva, 0 sin relación, -1 negativa","¿Qué variables se correlacionan con las ventas?"]},
+  77: {phase:"stats",title:"Estadística: Regression — predecir con datos",video:{type:"none",label:"YouTube: regresión lineal python sklearn tutorial español data analyst predicción"},ibm:false,tasks:["from sklearn.linear_model import LinearRegression","model.fit(X, y) — entrenar el modelo","y_pred = model.predict(X_test) — predecir","Evaluar: R² (% de varianza explicada) y MSE","Interpretar: por cada unidad de X, Y aumenta en ..."]},
+  78: {phase:"stats",title:"Estadística: Clustering K-Means — Learn Different Techniques",video:{type:"none",label:"YouTube: kmeans clustering python sklearn español segmentación clientes data analyst"},ibm:false,tasks:["Clustering: agrupar datos sin etiquetas predefinidas","from sklearn.cluster import KMeans","KMeans(n_clusters=3).fit(X) y predecir clusters","Visualizar con scatter plot coloreado por cluster","Caso de uso: segmentación de clientes — interpretar cada grupo"]},
+  79: {phase:"stats",title:"Estadística: Análisis RFM con Python",video:{type:"none",label:"YouTube: análisis RFM python pandas recencia frecuencia monetario tutorial español"},ibm:false,tasks:["RFM = Recencia (cuándo), Frecuencia (cuántas), Monetario (cuánto)","Calcular R: hoy - max(fecha) por cliente","Calcular F: COUNT(transacciones) por cliente","Calcular M: SUM(importe) por cliente","Asignar scores 1-5 con pd.qcut() y crear segmentos"]},
+  80: {phase:"stats",title:"Estadística: A/B Testing + Proyecto estadístico",video:{type:"none",label:"YouTube: AB testing python estadística significancia español data analyst tutorial"},ibm:false,tasks:["¿Qué es un A/B Test? Control vs variante","scipy.stats.chi2_contingency para test de proporciones","Calcular tamaño de muestra necesario","Interpretar resultados: ¿es estadísticamente significativo?","Crear notebook completo de análisis estadístico para el portafolio"]},
+  81: {phase:"viz",title:"Visualización: ¿Qué gráfico usar y cuándo?",video:{type:"none",label:"YouTube: qué gráfico usar data visualization cuando barras líneas pie chart español"},ibm:false,tasks:["Bar Chart: comparar categorías discretas","Line Chart: evolución temporal","Scatter Plot: relación entre dos variables continuas","Heatmap: correlaciones o tabla 2D con intensidad","Pie/Funnel: solo para proporciones claras (2-4 categorías)"]},
+  82: {phase:"viz",title:"Visualización: Storytelling con datos",video:{type:"none",label:"YouTube: data storytelling visualización datos principios español dashboard diseño"},ibm:false,tasks:["Un mensaje claro por visual — no sobrecargar","Jerarquía visual: lo más importante arriba izquierda","Color con propósito: resaltar, no decorar","Eliminar chartjunk: bordes, sombras, 3D, leyendas innecesarias","Rediseñar uno de tus gráficos aplicando estos principios"]},
+  83: {phase:"viz",title:"Power BI: Desktop Grand Tour",video:{type:"embed",url:"https://www.youtube.com/embed/FwjaHCVNBWA?start=787",label:"Power BI Full Course (Luke Barousse) · 13:07 — Power BI Desktop"},ibm:false,tasks:["Descargar Power BI Desktop (gratis en Microsoft)","Explorar el interfaz: Data, Relationships, Report views","Importar tu dataset CSV de ventas","Crear primera visualización de tabla simple","Guardar el archivo .pbix"]},
+  84: {phase:"viz",title:"Power BI: Dashboard Build + Power BI Service",video:{type:"embed",url:"https://www.youtube.com/embed/FwjaHCVNBWA?start=2105",label:"Power BI Full Course · 35:05 — Dashboard Build + 58:29 Power BI Service"},ibm:false,tasks:["Crear primer dashboard con 2-3 visuales combinados","Publicar reporte en Power BI Service (app.powerbi.com)","Explorar el reporte en el navegador","Compartir enlace de solo lectura","Diferencia entre Power BI Desktop (crear) vs Service (compartir)"]},
+  85: {phase:"viz",title:"Power BI: Column & Bar Charts",video:{type:"embed",url:"https://www.youtube.com/embed/FwjaHCVNBWA?start=4407",label:"Power BI Full Course · 1:13:27 — Column & Bar Charts"},ibm:false,tasks:["Crear gráfico de columnas agrupadas: ventas por categoría","Gráfico de barras horizontales: top 10 productos","Cambiar colores y añadir etiquetas de datos","Ajustar título y formato de los ejes","Añadir línea de referencia (Average Line)"]},
+  86: {phase:"viz",title:"Power BI: Line & Area Charts — evolución temporal",video:{type:"embed",url:"https://www.youtube.com/embed/FwjaHCVNBWA?start=5536",label:"Power BI Full Course · 1:32:16 — Line & Area Charts"},ibm:false,tasks:["Crear gráfico de líneas: ingresos por mes","Añadir segunda serie: comparar dos años","Gráfico de área: ver volumen acumulado visualmente","Usar jerarquía de fechas (año > trimestre > mes)","Drill-down en el eje temporal"]},
+  87: {phase:"viz",title:"Power BI: Common Charts — Pie, Donut, Treemap",video:{type:"embed",url:"https://www.youtube.com/embed/FwjaHCVNBWA?start=6513",label:"Power BI Full Course · 1:48:33 — Common Charts"},ibm:false,tasks:["Pie chart para cuotas de mercado (máximo 4 categorías)","Donut chart con KPI en el centro","Treemap: proporciones jerárquicas por categoría","Cuándo NO usar pie chart (nunca en 3D)","Ribbon Chart: evolución de rankings en el tiempo"]},
+  88: {phase:"viz",title:"Power BI: Map Charts — visualización geográfica",video:{type:"embed",url:"https://www.youtube.com/embed/FwjaHCVNBWA?start=7499",label:"Power BI Full Course · 2:04:59 — Map Charts"},ibm:false,tasks:["Mapa de burbujas: ventas por ciudad (tamaño = ingresos)","Filled Map: colorear países/estados por valor","Añadir tooltip al pasar el cursor","Filtrar el mapa desde un slicer de país","Comparar: mapa de burbujas vs coroplético"]},
+  89: {phase:"viz",title:"Power BI: Tables, Cards + Slicers",video:{type:"embed",url:"https://www.youtube.com/embed/FwjaHCVNBWA?start=9024",label:"Power BI Full Course · 2:30:24 Tables + 2:47:48 Cards + 2:57:23 Slicers"},ibm:false,tasks:["Tabla con formato condicional (rojo/verde por valor)","Matrix: tabla cruzada con filas y columnas anidadas","Card: KPI con un solo número grande y visible","Slicer de lista, de rango de fechas y desplegable","Conectar todos los visuales con los mismos slicers"]},
+  90: {phase:"viz",title:"Power BI: Buttons & Bookmarks — navegación avanzada",video:{type:"embed",url:"https://www.youtube.com/embed/FwjaHCVNBWA?start=11460",label:"Power BI Full Course · 3:11:00 — Buttons & Bookmarks"},ibm:false,tasks:["Crear botón de navegación entre páginas del reporte","Bookmark: guardar el estado del reporte con filtros activos","Usar bookmarks para crear modo 'Ver A' / 'Ver B'","Botón 'Limpiar filtros' vinculado a un bookmark vacío","Crear menú de navegación lateral con botones"]},
+  91: {phase:"viz",title:"Power BI: Project #1 — Main Dashboard",video:{type:"embed",url:"https://www.youtube.com/embed/FwjaHCVNBWA?start=12377",label:"Power BI Full Course · 3:26:17 — Project #1 Main Dashboard"},ibm:false,tasks:["Construir dashboard del proyecto #1 del curso","Página Overview: KPIs + evolución temporal + mapa","Página Detalle: top productos + drill-through","Añadir slicers de fecha, categoría y región","Publicar en Power BI Service con acceso público"]},
+  92: {phase:"viz",title:"Power BI: Power Query — importar y limpiar datos",video:{type:"embed",url:"https://www.youtube.com/embed/FwjaHCVNBWA?start=15107",label:"Power BI Full Course · 4:11:47 Power Query Intro + 4:34:12 Editor"},ibm:false,tasks:["Abrir Power Query Editor","Eliminar columnas innecesarias","Cambiar tipos de datos (texto → número, string → fecha)","Filtrar filas nulas en Power Query","Renombrar columnas con nombres claros"]},
+  93: {phase:"viz",title:"Power BI: Power Query Avanzado + Transformaciones",video:{type:"embed",url:"https://www.youtube.com/embed/FwjaHCVNBWA?start=17870",label:"Power BI Full Course · 4:57:50 Advanced Transformations"},ibm:false,tasks:["Transformaciones avanzadas: pivot, unpivot, agregar columnas","Append vs Merge en Power Query","Combinar múltiples archivos CSV en una sola tabla","Crear columna condicional con If-Then-Else","Entender el lenguaje M (fórmulas de Power Query)"]},
+  94: {phase:"viz",title:"Power BI: DAX — medidas calculadas básicas",video:{type:"embed",url:"https://www.youtube.com/embed/FwjaHCVNBWA?start=23557",label:"Power BI Full Course · 6:32:37 DAX Intro + 7:04:03 Explicit Measures"},ibm:false,tasks:["Total Ventas = SUM(ventas[importe])","Ticket Medio = AVERAGE(ventas[importe])","CALCULATE(SUM(...), filtro) para contexto específico","Medida vs Columna calculada — diferencias clave","DIVIDE(numerador, denominador, 0) para evitar errores"]},
+  95: {phase:"viz",title:"Power BI: DAX Avanzado + Project #2 Dashboard",video:{type:"embed",url:"https://www.youtube.com/embed/FwjaHCVNBWA?start=28155",label:"Power BI Full Course · 7:49:15 — Project #2 Dashboard Build"},ibm:false,tasks:["ALL() para ignorar filtros del contexto","% sobre total: DIVIDE(ventas_cat, CALCULATE(SUM(...), ALL(tabla)))","Construir Project #2 Dashboard completo del curso","Revisar con visión crítica de diseño y UX","Publicar en Power BI Service"]},
+  96: {phase:"proj",title:"Proyecto 1: Setup — Dataset Ventas Retail",video:{type:"none",label:"YouTube: kaggle superstore dataset data analyst proyecto tutorial completo"},ibm:false,tasks:["Descargar Superstore dataset de Kaggle","Cargar en Python/Pandas: exploración inicial","Contar filas, columnas, nulos, tipos de datos","Definir 5 preguntas de negocio a responder","Crear repositorio en GitHub: 'proyecto-ventas-retail'"]},
+  97: {phase:"proj",title:"Proyecto 1: Limpieza + Análisis SQL",video:{type:"embed",url:"https://www.youtube.com/embed/7mz73uXD9DA?start=0",label:"SQL Full Course · Repaso para el proyecto"},ibm:false,tasks:["Limpieza completa: nulos, duplicados, outliers, tipos","Top 10 productos por ingresos con RANK()","Ventas por región y variación mensual","Análisis 80/20: cuántos productos hacen el 80% de ventas","Documentar queries en archivo .sql"]},
+  98: {phase:"proj",title:"Proyecto 1: Análisis Python + Dashboard Power BI",video:{type:"embed",url:"https://www.youtube.com/embed/FwjaHCVNBWA?start=12377",label:"Power BI Full Course · 3:26:17 Project #1 como referencia"},ibm:false,tasks:["Análisis RFM de clientes con Pandas","Segmentación K-Means en 3-4 grupos","Dashboard Page 1: KPIs + evolución temporal","Dashboard Page 2: Productos y categorías","Dashboard Page 3: Clientes y segmentos"]},
+  99: {phase:"proj",title:"Proyecto 1: Documentación + GitHub",video:{type:"none",label:"YouTube: portfolio data analyst github readme español proyectos 2024"},ibm:false,tasks:["README: objetivo, datos, metodología, conclusiones","Subir: notebook .ipynb, queries .sql, capturas del dashboard","Enlace al dashboard publicado en el README","5 conclusiones de negocio basadas en los datos","Pitch de 3 minutos del proyecto"]},
+  100: {phase:"proj",title:"Proyecto 2: Análisis de Churn",video:{type:"none",label:"YouTube: customer churn analysis python sql power bi data analyst español"},ibm:false,tasks:["Descargar Telco Customer Churn de Kaggle","Limpieza y tasa de churn global","Análisis: tasa de churn por segmento, antigüedad, producto","Dashboard: KPIs de churn + segmentación por riesgo","3 recomendaciones de negocio con impacto estimado"]},
+  101: {phase:"proj",title:"Proyecto 3: Análisis Ecommerce",video:{type:"none",label:"YouTube: ecommerce data analysis python sql power bi proyecto español completo"},ibm:false,tasks:["Dataset ecommerce de Kaggle","AOV, Conversion Rate, Customer Lifetime Value","Análisis RFM completo de clientes","Dashboard completo: Overview + Productos + Clientes","Publicar y documentar en GitHub"]},
+  102: {phase:"proj",title:"LinkedIn + Portfolio web",video:{type:"none",label:"YouTube: linkedin data analyst perfil optimizar español 2024 recruiter"},ibm:false,tasks:["Actualizar titular: 'Data Analyst | SQL | Python | Power BI | Excel'","Añadir proyectos en sección 'Proyectos' de LinkedIn","GitHub Pages o Notion: página web de portafolio","Enlace web en perfil de LinkedIn y CV","Pedir a alguien que lo revise como recruiter"]},
+  103: {phase:"proj",title:"CV + búsqueda activa de empleo",video:{type:"none",label:"YouTube: cv data analyst junior español cómo hacer 2024 habilidades proyectos"},ibm:false,tasks:["CV adaptado para Data Analyst Junior","Sección 'Proyectos' con impacto cuantificado","Habilidades técnicas: SQL, Python, Power BI, Excel","Buscar 5 ofertas que te interesen y aplicar","Tracker: empresa, fecha, estado, siguiente paso"]},
+  104: {phase:"proj",title:"SQL para entrevistas técnicas",video:{type:"embed",url:"https://www.youtube.com/embed/QKIGsShyEsQ?start=0",label:"SQL Intermediate · Repasar para entrevistas"},ibm:false,tasks:["StrataScratch.com: 3 ejercicios nivel medio","Second highest salary, consecutive dates, running totals","Window functions en ejercicios reales","Cronometrar: resolver en menos de 10 minutos","Revisar soluciones alternativas"]},
+  105: {phase:"proj",title:"Python/Pandas para entrevistas",video:{type:"embed",url:"https://www.youtube.com/embed/wUSDVGivd-8?start=12600",label:"Python for DA · Repasar Pandas para entrevistas"},ibm:false,tasks:["Análisis rápido desde cero en menos de 30 minutos","Operaciones clave: merge, groupby, pivot, filtros","'Calcula el churn rate con Pandas'","Practicar explicar el código en voz alta","2 ejercicios de Pandas en HackerRank"]},
+  106: {phase:"proj",title:"Excel para entrevistas",video:{type:"embed",url:"https://www.youtube.com/embed/pCJ15nGFgVg?start=0",label:"Excel Full Course · Repasar para entrevistas"},ibm:false,tasks:["Repasar: VLOOKUP, INDEX-MATCH, XLOOKUP","Repasar: tablas dinámicas, segmentadores, gráficos","Análisis completo desde cero en menos de 30 minutos","'Muéstrame cómo harías X en Excel'","Explicar cada función con ejemplo de negocio"]},
+  107: {phase:"proj",title:"Estadística para entrevistas",video:{type:"none",label:"YouTube: estadística entrevista data analyst español preguntas respuestas p-value correlación"},ibm:false,tasks:["Media vs mediana: cuándo usar cada una","p-value: qué significa y cómo lo interpretas","Correlación vs causalidad: da un ejemplo concreto","¿Cómo detectas y tratas outliers?","Explica A/B testing a un stakeholder no técnico"]},
+  108: {phase:"proj",title:"Simulacro completo de entrevista técnica",video:{type:"none",label:"YouTube: data analyst entrevista técnica simulacro preguntas respuestas español"},ibm:false,tasks:["60 min de simulacro con un amigo o grabándote","Parte 1: preguntas SQL en papel (20 min)","Parte 2: analizar dataset nuevo en 20 minutos","Parte 3: presentar hallazgos en 5 minutos","Revisar y anotar los 3 puntos más débiles"]},
+  109: {phase:"proj",title:"Cases de negocio: estructura de análisis",video:{type:"none",label:"YouTube: case study data analyst negocio ventas bajaron estructura español cómo resolver"},ibm:false,tasks:["'Las ventas bajaron 15%, ¿qué harías?'","Estructura: contexto → hipótesis → datos → análisis → conclusión","'Lanzamos un nuevo producto, ¿cómo mides el éxito?'","'El NPS bajó, ¿por qué?' — formular hipótesis","Presentar cada caso en 5-7 minutos"]},
+  110: {phase:"proj",title:"Método STAR + preparación comportamental",video:{type:"none",label:"YouTube: método STAR entrevista trabajo data analyst español situación tarea acción resultado"},ibm:false,tasks:["S1: 'Cuéntame un análisis complejo que hayas hecho' (STAR)","S2: 'Cómo manejaste datos de mala calidad' (STAR)","S3: 'Cómo presentaste insights a alguien no técnico' (STAR)","Elevator pitch de 30s: quién eres + qué sabes + qué buscas","Practicar en voz alta hasta que fluya natural"]},
+  111: {phase:"proj",title:"SQL avanzado: ejercicios de entrevista final",video:{type:"embed",url:"https://www.youtube.com/embed/QKIGsShyEsQ?start=12600",label:"SQL Intermediate · ~3:30 Window Functions para entrevistas"},ibm:false,tasks:["5 ejercicios SQL nivel medio-alto en StrataScratch","CTEs, window functions, subqueries complejas","'Encuentra el segundo valor más alto'","'Usuarios activos en ambos meses consecutivos'","Revisar y comparar con las soluciones del sistema"]},
+  112: {phase:"proj",title:"Dashboard final: tu mejor proyecto",video:{type:"embed",url:"https://www.youtube.com/embed/FwjaHCVNBWA?start=28155",label:"Power BI Full Course · 7:49:15 Project #2 como inspiración"},ibm:false,tasks:["Seleccionar el mejor de tus 3 proyectos","Última revisión exhaustiva de diseño y datos","Asegúrate de que funciona sin explicación externa","Publicar con acceso público en Power BI Service","Compartir en LinkedIn con los insights principales"]},
+  113: {phase:"proj",title:"GitHub: portfolio final profesional",video:{type:"none",label:"YouTube: github portfolio data analyst profesional español readme proyectos 2024"},ibm:false,tasks:["Repo 'portfolio-data-analyst' como entrada principal","README: presentación + links a los 3 proyectos","Foto de perfil profesional en GitHub","Habilidades, tecnologías y contacto en el README","Añadir GitHub a CV y LinkedIn"]},
+  114: {phase:"proj",title:"Segunda ronda de aplicaciones de empleo",video:{type:"none",label:"YouTube: cómo buscar trabajo data analyst junior españa linkedin indeed 2024"},ibm:false,tasks:["Aplicar a 10 ofertas adicionales","Priorizar empresas con stack SQL + Python + Power BI","Revisar tracker y hacer follow-up","Personalizar cover letter para las más deseadas","Follow-up a rechazos para pedir feedback"]},
+  115: {phase:"proj",title:"Certificaciones: IBM, Google, Microsoft PL-300",video:{type:"none",label:"YouTube: certificaciones data analyst google ibm microsoft 2024 español cuáles hacer"},ibm:false,tasks:["Revisar progreso en IBM Data Analyst Certificate (Coursera)","Si completado: descargar y añadir a LinkedIn","Valorar: Google Data Analytics Certificate","Valorar: Microsoft PL-300 (Power BI certification)","Añadir certificados completados al CV"]},
+  116: {phase:"proj",title:"Ampliación: Python avanzado para DA",video:{type:"embed",url:"https://www.youtube.com/embed/wUSDVGivd-8?start=29400",label:"Python for DA · Capstone como base para avanzar"},ibm:false,tasks:["scipy.stats para tests estadísticos avanzados","statsmodels para regresión con p-values detallados","Automatizar reportes: script genera HTML/Excel automáticamente","Enviar reporte por email con smtplib","Subir análisis avanzado como notebook a GitHub"]},
+  117: {phase:"proj",title:"Ampliación: SQL en la nube con BigQuery",video:{type:"none",label:"YouTube: bigquery google cloud SQL tutorial español data analyst gratis datasets públicos"},ibm:false,tasks:["Crear cuenta gratuita en Google Cloud Platform","Explorar BigQuery con datasets públicos","Ejecutar queries SQL en la nube","Conectar BigQuery a Looker Studio","Añadir 'BigQuery' a habilidades en LinkedIn"]},
+  118: {phase:"proj",title:"Ampliación: Tableau — alternativa a Power BI",video:{type:"none",label:"YouTube: tableau public tutorial completo español principiantes data analyst 2024"},ibm:false,tasks:["Descargar Tableau Public (gratis)","Conectar tu dataset y crear un dashboard básico","Comparar con Power BI: ¿cuándo usar cada uno?","Publicar dashboard en Tableau Public","Añadir 'Tableau' a tu portafolio y LinkedIn"]},
+  119: {phase:"proj",title:"Checklist final — ¿estás listo para trabajar?",video:{type:"none",label:"YouTube: data analyst job ready checklist portfolio cv linkedin github español"},ibm:false,tasks:["✅ CV actualizado con proyectos y habilidades técnicas","✅ LinkedIn: foto, titular, proyectos, habilidades completo","✅ GitHub: 3+ repositorios documentados con README","✅ 3 proyectos publicados (Power BI + notebooks Python)","✅ Preparado para SQL, Python, Excel y estadística"]},
+  120: {phase:"proj",title:"🎉 Día 120 — ¡Lo has conseguido!",video:{type:"none",label:"YouTube: data analyst carrera próximos pasos certificaciones senior español 2024"},ibm:false,tasks:["🎉 ¡FELICIDADES! Has completado el Roadmap completo de Data Analyst","Recorrido: Intro → Excel → SQL → Python → SQL Adv → Datos → Estadística → Viz → Proyectos","Habilidades: Excel ✓ SQL ✓ Python ✓ Estadística ✓ Power BI ✓","Portafolio: 3 proyectos + GitHub + LinkedIn actualizados","🚀 El aprendizaje no termina — pero YA ERES DATA ANALYST"]}
+};
+
+const PHASES = [
+  {id:"intro",  icon:"🧭", label:"Introducción",  days:[1,5],   color:"#f59e0b", desc:"Los 4 tipos de Analytics + Conceptos clave del dato",         topics:["Descriptive","Diagnostic","Predictive","Prescriptive","Ciclo del dato"]},
+  {id:"excel",  icon:"📊", label:"Excel",          days:[6,19],  color:"#22c55e", desc:"Analysis & Reporting with Excel · Learn Common Functions",    topics:["SUM/AVG/COUNT","IF/AND/OR","DATEDIF","VLOOKUP/XLOOKUP","REPLACE/TRIM","Pivot Tables","Charting","Dashboard"]},
+  {id:"sql",    icon:"🗄️", label:"SQL",            days:[20,35], color:"#3b82f6", desc:"Learn SQL · SELECT → JOIN → Subqueries → CTEs → Window Fn",  topics:["SELECT/WHERE","ORDER BY/LIMIT","GROUP BY/HAVING","INNER/LEFT JOIN","Subqueries","CTEs","Window Functions"]},
+  {id:"python", icon:"🐍", label:"Python",         days:[36,50], color:"#ec4899", desc:"Gain Programming Skills · Python · NumPy · Pandas · Viz",     topics:["Python basics","NumPy","Pandas","GroupBy/Merge","Matplotlib","Seaborn","Plotly","Capstone"]},
+  {id:"sqladv", icon:"⚡", label:"SQL Avanzado",   days:[51,60], color:"#60a5fa", desc:"SQL Intermediate (Luke Barousse) · CTEs · Window Fn · Proyecto",topics:["Subqueries avanzadas","CTEs encadenadas","RANK/DENSE_RANK","SUM/LAG/LEAD","CASE WHEN","Análisis RFM","Proyecto"]},
+  {id:"data",   icon:"🗃️", label:"Data Handling", days:[61,70], color:"#06b6d4", desc:"Mastering Data Handling · Colección + Limpieza de datos",     topics:["Databases","CSV Files","APIs","Web Scraping","Missing Data","Duplicates","Outliers","Transformation"]},
+  {id:"stats",  icon:"📐", label:"Estadística",   days:[71,80], color:"#8b5cf6", desc:"Data Analysis Techniques · Descriptive + Statistical Analysis",topics:["Tendencia central","Dispersión","Skewness","Distribuciones","Hypothesis Testing","Correlación","Regresión","K-Means","RFM","A/B Testing"]},
+  {id:"viz",    icon:"📈", label:"Power BI",       days:[81,95], color:"#f97316", desc:"Data Visualisation · Power BI Full Course (Luke Barousse)",   topics:["Storytelling","Power BI Desktop","Dashboard Build","Bar/Line Charts","Maps","Tables/Cards/Slicers","Bookmarks","Power Query","DAX","Project #1 & #2"]},
+  {id:"proj",   icon:"🚀", label:"Proyectos",     days:[96,120], color:"#ef4444", desc:"3 Proyectos end-to-end · Portfolio · Búsqueda de empleo",     topics:["Ventas Retail","Churn Analysis","Ecommerce","GitHub","LinkedIn","SQL Interviews","Python Interviews","Entrevistas"]}
+];
+
+const PHASE_ICONS = {intro:"🧭",excel:"📊",sql:"🗄️",python:"🐍",sqladv:"⚡",data:"🗃️",stats:"📐",viz:"📈",proj:"🚀"};
+const PHASE_NAMES = {intro:"Introducción",excel:"Excel",sql:"SQL",python:"Python",sqladv:"SQL Avanzado",data:"Data Handling",stats:"Estadística",viz:"Power BI",proj:"Proyectos"};
+const PHASE_COLORS= {intro:"#f59e0b",excel:"#22c55e",sql:"#3b82f6",python:"#ec4899",sqladv:"#60a5fa",data:"#06b6d4",stats:"#8b5cf6",viz:"#f97316",proj:"#ef4444"};
+
+let curFilter = "all";
+
+function isDone(d){ try{ return !!localStorage.getItem("rda_"+d); }catch(e){ return false; } }
+
+function updateProgress(){
+  let done=0;
+  for(let i=1;i<=120;i++) if(isDone(i)) done++;
+  const pct = Math.round(done/120*100);
+  document.getElementById("progressCount").innerHTML = done+' <small>/ 120 días</small>';
+  document.getElementById("progressFill").style.width = pct+"%";
+  document.getElementById("progressPct").textContent = pct+"% completado";
+}
+
+function buildCal(){
+  const c = document.getElementById("mainContainer");
+  c.innerHTML = "";
+  PHASES.forEach(ph => {
+    const sec = document.createElement("div");
+    sec.className = "phase-section";
+    sec.dataset.phase = ph.id;
+    const topics = ph.topics.map(t=>`<span class="topic-chip">${t}</span>`).join('');
+    sec.innerHTML = `
+      <div class="phase-hdr">
+        <div class="phase-badge ${ph.id}">${ph.icon} ${ph.label}</div>
+        <div class="ph-left">
+          <div class="ph-title">${ph.desc}</div>
+          <div class="ph-topics">${topics}</div>
+        </div>
+        <div class="ph-days">Días ${ph.days[0]}–${ph.days[1]}</div>
+      </div>
+      <div class="days-grid" id="g_${ph.id}"></div>`;
+    c.appendChild(sec);
+    // Week header
+    const wh = document.createElement("div");
+    wh.className = "week-header";
+    ["Lun","Mar","Mié","Jue","Vie","Sáb","Dom"].forEach(d=>{
+      const wd = document.createElement("div");
+      wd.className = "week-day";
+      wd.textContent = d;
+      wh.appendChild(wd);
+    });
+    sec.querySelector(".ph-left").parentElement.after ? null : null;
+    // insert week header before grid
+    const gridEl = sec.querySelector(".days-grid");
+    gridEl.parentElement.insertBefore(wh, gridEl);
+
+    for(let d=ph.days[0]; d<=ph.days[1]; d++){
+      const data = D[d];
+      const card = document.createElement("div");
+      card.className = "day-card "+ph.id+(isDone(d)?" done":"");
+      card.dataset.day = d;
+      // Short label: just 3-4 chars
+      const shortLabels = {intro:"Intro",excel:"Excel",sql:"SQL",python:"Py",sqladv:"SQL+",data:"Data",stats:"Stats",viz:"PBI",proj:"Proy"};
+      card.innerHTML = `
+        <div class="day-number">${d}</div>
+        <div class="day-label">${shortLabels[ph.id]||ph.id}</div>`;
+      card.addEventListener("click", ()=>openDay(d));
+      gridEl.appendChild(card);
+    }
+  });
+  applyFilter(curFilter);
+  updateProgress();
+}
+
+function applyFilter(ph){
+  document.querySelectorAll(".phase-section").forEach(sec=>{
+    if(ph==="all"){
+      sec.style.display="";
+      sec.querySelectorAll(".day-card").forEach(c=>c.style.display="");
+    } else if(ph==="done"){
+      sec.style.display="";
+      sec.querySelectorAll(".day-card").forEach(c=>{
+        c.style.display = isDone(+c.dataset.day) ? "" : "none";
+      });
+    } else {
+      sec.style.display = sec.dataset.phase===ph ? "" : "none";
+      sec.querySelectorAll(".day-card").forEach(c=>c.style.display="");
+    }
+  });
+}
+
+function fp(ph, btn){
+  curFilter = ph;
+  document.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
+  applyFilter(ph);
+}
+
+// ── MODAL ────────────────────────────────────────────────────────────────────
+function secToLabel(sec){
+  const h=Math.floor(sec/3600), m=Math.floor((sec%3600)/60), s=sec%60;
+  if(h>0) return h+":"+String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
+  if(m>0) return m+":"+String(s).padStart(2,"0");
+  return "Inicio";
+}
+
+function buildVideoCard(v){
+  if(!v || v.type==="none"){
+    const q = encodeURIComponent(v ? v.label.replace("YouTube: ","") : "data analyst tutorial");
+    const label = v ? v.label.replace("YouTube: ","") : "Buscar en YouTube";
+    return `<a class="course-card suggest" href="https://www.youtube.com/results?search_query=${q}" target="_blank" rel="noopener">
+      <div class="cc-thumb indigo">🔍</div>
+      <div>
+        <div class="cc-tag indigo">📺 SUGERENCIA — BUSCA EN YOUTUBE</div>
+        <div class="cc-title">${label}</div>
+        <div class="cc-sub">Abre YouTube · Elige el vídeo que más te guste y guárdalo</div>
+      </div>
+      <div class="cc-arrow" style="color:#818cf8">↗</div>
+    </a>`;
+  }
+  if(v.type==="embed"){
+    const startMatch = v.url.match(/start=(\d+)/);
+    const sec = startMatch ? parseInt(startMatch[1]) : 0;
+    const ts = secToLabel(sec);
+    const watchUrl = v.url
+      .replace("https://www.youtube.com/embed/","https://www.youtube.com/watch?v=")
+      .replace(/[?&]start=(\d+)/,(_, s)=>"&t="+s+"s");
+    const tsNote = sec>0 ? `⏱ Empieza en ${ts}` : "⏱ Desde el inicio";
+    return `<a class="course-card embed" href="${watchUrl}" target="_blank" rel="noopener">
+      <div class="cc-thumb red">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
+      </div>
+      <div style="flex:1;min-width:0">
+        <div class="cc-tag red">🎬 CURSO DEL DÍA &nbsp;·&nbsp; ${tsNote}</div>
+        <div class="cc-title">${v.label}</div>
+        <div class="cc-sub">Clic → abre en YouTube en el timestamp exacto ↗</div>
+      </div>
+      <div class="cc-arrow" style="color:#ef4444">↗</div>
+    </a>`;
+  }
+  if(v.type==="link"){
+    return `<a class="course-card link" href="${v.url}" target="_blank" rel="noopener">
+      <div class="cc-thumb slate">📖</div>
+      <div>
+        <div class="cc-tag slate">🔗 ENLACE DEL CURSO</div>
+        <div class="cc-title">${v.label}</div>
+        <div class="cc-sub">Repasa la sección que necesites</div>
+      </div>
+      <div class="cc-arrow" style="color:var(--text-muted)">↗</div>
+    </a>`;
+  }
+  return "";
+}
+
+function openDay(d){
+  const data = D[d];
+  if(!data) return;
+  const ph = data.phase;
+  const ac = PHASE_COLORS[ph] || "#3b82f6";
+
+  document.getElementById("mDayNum").textContent = "DÍA "+d+" / 120";
+  document.getElementById("mTitle").textContent   = data.title;
+  document.getElementById("mBadge").innerHTML     =
+    `<span class="modal-phase-badge" style="color:${ac};border-color:${ac};background:${ac}18">
+      ${PHASE_ICONS[ph]} ${PHASE_NAMES[ph]}
+    </span>`;
+
+  // Tasks
+  const tk = "rda_t_"+d;
+  let saved = {};
+  try{ saved = JSON.parse(localStorage.getItem(tk)||"{}"); }catch(e){}
+  const tasksHtml = data.tasks.map((t,i)=>{
+    const done = saved[i]||false;
+    return `<div class="task-item${done?" done":""}" onclick="toggleTask(${d},${i},this)">
+      <div class="task-check">${done?"✓":""}</div>
+      <div class="task-label">${t}</div>
+    </div>`;
+  }).join("");
+
+  document.getElementById("mBody").innerHTML =
+    buildVideoCard(data.video) +
+    `<div class="tasks-section">
+      <div class="tasks-header">Tareas del día</div>
+      ${tasksHtml}
+    </div>`;
+
+  const done = isDone(d);
+  document.getElementById("mFooter").innerHTML = done
+    ? `<button class="btn-primary" style="background:linear-gradient(135deg,#16a34a,#15803d)" onclick="markDone(${d})">✅ Completado</button>
+       <button class="btn-secondary" onclick="unmarkDone(${d})">Desmarcar</button>`
+    : `<button class="btn-primary" onclick="markDone(${d})">Marcar como completado ✅</button>`;
+
+  document.getElementById("overlay").classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+
+function toggleTask(day, idx, el){
+  el.classList.toggle("done");
+  const done = el.classList.contains("done");
+  el.querySelector(".task-check").textContent = done ? "✓" : "";
+  el.querySelector(".task-label").style.textDecoration = done ? "line-through" : "";
+  const tk = "rda_t_"+day;
+  let saved = {};
+  try{ saved = JSON.parse(localStorage.getItem(tk)||"{}"); }catch(e){}
+  saved[idx] = done;
+  try{ localStorage.setItem(tk, JSON.stringify(saved)); }catch(e){}
+}
+
+function markDone(d){
+  try{ localStorage.setItem("rda_"+d,"done"); }catch(e){}
+  buildCal(); closeModal();
+}
+function unmarkDone(d){
+  try{ localStorage.removeItem("rda_"+d); }catch(e){}
+  buildCal(); closeModal();
+}
+function closeModal(){
+  document.getElementById("overlay").classList.remove("open");
+  document.body.style.overflow = "";
+}
+document.addEventListener("keydown", e=>{ if(e.key==="Escape") closeModal(); });
+
+// ── INIT ─────────────────────────────────────────────────────────────────────
+buildCal();
+</script>
+</body>
+</html>
