@@ -1397,6 +1397,28 @@ document.addEventListener("keydown", e=>{ if(e.key==="Escape") closeModal(); });
 
 // ── INIT ─────────────────────────────────────────────────────────────────────
 buildCal();
+<script type="module">
+
+// Import Firebase
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-analytics.js";
+
+// Tu configuración
+const firebaseConfig = {
+  apiKey: "AIzaSyCM1IONrJF17DZ_kgmLynhwDnA592OCTHM",
+  authDomain: "data-analyst-roadmap-120-dias.firebaseapp.com",
+  projectId: "data-analyst-roadmap-120-dias",
+  storageBucket: "data-analyst-roadmap-120-dias.firebasestorage.app",
+  messagingSenderId: "297044512953",
+  appId: "1:297044512953:web:544bb1ec2418fe81d04b68",
+  measurementId: "G-2HKMYEJNFV"
+};
+
+// Inicializar Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
 </script>
+
 </body>
 </html>
