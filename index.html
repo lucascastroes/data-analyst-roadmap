@@ -1410,30 +1410,41 @@ document.addEventListener("DOMContentLoaded", function() {
 </script>
 
 
-<!-- 🔥 FIREBASE -->
-<script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
 
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyCMilONrJFl7DZ_kgmLynhwDnA592OCThM",
-    authDomain: "data-analyst-roadmap-120-dias.firebaseapp.com",
-    projectId: "data-analyst-roadmap-120-dias",
-    storageBucket: "data-analyst-roadmap-120-dias.firebasestorage.app",
-    messagingSenderId: "297044512953",
-    appId: "1:297044512953:web:544bb1ec2418fe81d04b68",
-    measurementId: "G-2HKMYEJFNV"
-  };
+<!-- ✅ FIREBASE VERSION COMPATIBLE -->
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.jsript src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyCM1IONrJF17DZ_kgmLynhwDnA592OCTHM",
+  authDomain: "data-analyst-roadmap-120-dias.firebaseapp.com",
+  projectId: "data-analyst-roadmap-120-dias",
+  storageBucket: "data-analyst-roadmap-120-dias.firebasestorage.app",
+  messagingSenderId: "297044512953",
+  appId:web:544bb1ec2418fe81d04b68",
+  measurementId: "G-2HKMYEJNFV"
+};
+
+// INIT
+firebase.initializeApp(firebaseConfig);
+
+// AUTH
+const auth = firebase.auth();
+
+function login(){
+  const provider = new firebase.auth.GoogleAuthProvider();
+
+  auth.signInWithPopup(provider)
+    .then((result) => {
+      alert("Logueado como: " + result.user.email);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
 </script>
+
 
 <!-- ✅ BOTÓN (DENTRO DEL BODY, MUY IMPORTANTE) -->
 <div style="position:fixed; top:10px; right:10px; z-index:999;">
