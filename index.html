@@ -1412,45 +1412,44 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
+
 <!-- ✅ FIREBASE VERSION COMPATIBLE -->
 
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 
 <script>
-  // Config Firebase
-  const firebaseConfig = {
-    apiKey: "AIzaSyCMilONrJFl7DZ_kgmLynhwDnA592OCThM",
-    authDomain: "data-analyst-roadmap-120-dias.firebaseapp.com",
-    projectId: "data-analyst-roadmap-120-dias",
-    storageBucket: "data-analyst-roadmap-120-dias.firebasestorage.app",
-    messagingSenderId: "297044512953",
-    appId: "1:297044512953:web:544bb1ec2418fe81d04b68",
-    measurementId: "G-2HKMYEJFNV"
-  };
+const firebaseConfig = {
+  apiKey: "AIzaSyCM1IONrJF17DZ_kgmLynhwDnA592OCTHM",
+  authDomain: "data-analyst-roadmap-120-dias.firebaseapp.com",
+  projectId: "data-analyst-roadmap-120-dias",
+  storageBucket: "data-analyst-roadmap-120-dias.firebasestorage.app",
+  messagingSenderId: "297044512953",
+  appId: "1:297044512953:web:544bb1ec2418fe81d04b68",
+  measurementId: "G-2HKMYEJNFV"
+};
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
+// ✅ ESTE ES EL CORRECTO
+firebase.initializeApp(firebaseConfig);
 
-  // Auth
-  const auth = firebase.auth();
+// AUTH
+const auth = firebase.auth();
 
-  // ✅ Login global (IMPORTANTE)
-  window.login = function () {
-    const provider = new firebase.auth.GoogleAuthProvider();
+// ✅ LOGIN GLOBAL
+window.login = function () {
+  const provider = new firebase.auth.GoogleAuthProvider();
 
-    auth.signInWithPopup(provider)
-      .then((result) => {
-        alert("Logueado como: " + result.user.email);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
+  auth.signInWithPopup(provider)
+    .then((result) => {
+      alert("Logueado como: " + result.user.email);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
 </script>
 
-<!-- ✅ BOTÓN LOGIN -->
+<!-- ✅ BOTÓN -->
 <div style="position:fixed; top:10px; right:10px; z-index:999;">
   <button onclick="login()">Login 🔐</button>
 </div>
