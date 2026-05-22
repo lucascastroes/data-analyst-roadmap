@@ -1425,7 +1425,7 @@ const firebaseConfig = {
   projectId: "data-analyst-roadmap-120-dias",
   storageBucket: "data-analyst-roadmap-120-dias.firebasestorage.app",
   messagingSenderId: "297044512953",
-  appId:web:544bb1ec2418fe81d04b68",
+  appId: "1:297044512953:web:544bb1ec2418fe81d04b68",
   measurementId: "G-2HKMYEJNFV"
 };
 
@@ -1435,6 +1435,7 @@ firebase.initializeApp(firebaseConfig);
 // AUTH
 const auth = firebase.auth();
 
+// ✅ IMPORTANTE
 window.login = function(){
   const provider = new firebase.auth.GoogleAuthProvider();
 
@@ -1445,7 +1446,7 @@ window.login = function(){
     .catch((error) => {
       console.error(error);
     });
-}
+};
 </script>
 
 
