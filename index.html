@@ -1454,17 +1454,18 @@ const firebaseConfig = {
   };
 </script>
 
-<!-- ✅ BOTÓN LOGIN BONITO -->
+
+<!-- ✅ BOTÓN LOGIN GOOGLE ESTILO PRO -->
+
 <style>
   .google-btn {
     position: fixed;
-    top: 10px;
-    right: 10px;
-    padding: 10px 16px;
-    background-color: white;
-    color: #444;
+    top: 15px;
+    right: 15px;
+    padding: 10px 18px;
+    background: white;
+    border-radius: 8px;
     border: 1px solid #dadce0;
-    border-radius: 6px;
     font-family: Arial, sans-serif;
     font-size: 14px;
     font-weight: 500;
@@ -1472,27 +1473,25 @@ const firebaseConfig = {
     align-items: center;
     gap: 10px;
     cursor: pointer;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    transition: all 0.2s;
-    z-index: 999;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    z-index: 9999;
   }
 
   .google-btn:hover {
-    background-color: #f7f7f7;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    background: #f7f7f7;
   }
 
-  .google-icon {
+  .google-btn img {
     width: 18px;
     height: 18px;
   }
 </style>
 
 <button class="google-btn" onclick="login()">
-  <img class="google-icon" src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg">
+  <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg">
   Log in
 </button>
-``
+
 
 </body>
 </html>
