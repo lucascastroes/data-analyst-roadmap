@@ -1415,8 +1415,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
 <!-- ✅ FIREBASE VERSION COMPATIBLE -->
 
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 
 <script>
 const firebaseConfig = {
@@ -1425,17 +1425,15 @@ const firebaseConfig = {
   projectId: "data-analyst-roadmap-120-dias",
   storageBucket: "data-analyst-roadmap-120-dias.firebasestorage.app",
   messagingSenderId: "297044512953",
-  appId: "1:297044512953:web:544bb1ec2418fe81d04b68",
-  measurementId: "G-2HKMYEJNFV"
+  appId: "1:297044512953:web:544bb1ec2418fe81d04b68"
 };
 
-// ✅ ESTE ES EL CORRECTO
+// ✅ IMPORTANTE: ESTE ES EL CORRECTO
 firebase.initializeApp(firebaseConfig);
 
-// AUTH
 const auth = firebase.auth();
 
-// ✅ LOGIN GLOBAL
+// ✅ LOGIN
 window.login = function () {
   const provider = new firebase.auth.GoogleAuthProvider();
 
@@ -1450,7 +1448,7 @@ window.login = function () {
 </script>
 
 <!-- ✅ BOTÓN -->
-<div style="position:fixed; top:10px; right:10px; z-index:999;">
+<div style="position:fixed; top:10px; right:10px;">
   <button onclick="login()">Login 🔐</button>
 </div>
 
