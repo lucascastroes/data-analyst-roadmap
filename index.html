@@ -1420,17 +1420,18 @@ document.addEventListener("DOMContentLoaded", function() {
 <script>
   // Config Firebase
   const firebaseConfig = {
-    apiKey: "AIzaSyCM1IONrJF17DZ_kgmLynhwDnA592OCTHM",
+    apiKey: "AIzaSyCMilONrJFl7DZ_kgmLynhwDnA592OCThM",
     authDomain: "data-analyst-roadmap-120-dias.firebaseapp.com",
     projectId: "data-analyst-roadmap-120-dias",
     storageBucket: "data-analyst-roadmap-120-dias.firebasestorage.app",
     messagingSenderId: "297044512953",
     appId: "1:297044512953:web:544bb1ec2418fe81d04b68",
-    measurementId: "G-2HKMYEJNFV"
+    measurementId: "G-2HKMYEJFNV"
   };
 
-  // Inicializar Firebase
-  firebase.initializeApp(firebaseConfig);
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
 
   // Auth
   const auth = firebase.auth();
